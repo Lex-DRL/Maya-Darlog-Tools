@@ -215,11 +215,28 @@ global proc contextPolyToolsObjectMM(){
 
 			// Added by DRL: {
 			menuItem
+				-label ("Lock Normals")
+				-command "LockNormals"
+				-radialPosition "N"
+				-sourceType "mel"
+				-itl 1
+				-enableCommandRepeat 1
+				-image "polyNormalLock.png"
+				;
+			menuItem
 				-label ("Unlock (keep Soft/Hard)")
-				-command "import lockNormals_toHS; reload(lockNormals_toHS); lockNormals_toHS.run()"
+				-command "from darlog_maya import unlock_normals; reload(unlock_normals); unlock_normals.run()"
 				-radialPosition "W"
 				-sourceType "python"
 				-bld 1
+				-enableCommandRepeat 1
+				-image "polyNormalUnlock.png"
+				;
+			menuItem
+				-label ("Unlock Normals")
+				-command "UnlockNormals"
+				-radialPosition "SW"
+				-sourceType "mel"
 				-itl 1
 				-enableCommandRepeat 1
 				-image "polyNormalUnlock.png"

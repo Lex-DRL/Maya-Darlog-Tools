@@ -140,6 +140,7 @@ global proc contextPolyToolsObjectMM(){
 				-command "LockNormals"
 				-radialPosition "N"
 				-sourceType "mel"
+				-itl 1
 				-enableCommandRepeat 1
 				-image "polyNormalLock.png"
 				;
@@ -149,7 +150,6 @@ global proc contextPolyToolsObjectMM(){
 				-radialPosition "W"
 				-sourceType "python"
 				-bld 1
-				-itl 1
 				-enableCommandRepeat 1
 				-image "polyNormalUnlock.png"
 				;
@@ -158,6 +158,7 @@ global proc contextPolyToolsObjectMM(){
 				-command "UnlockNormals"
 				-radialPosition "SW"
 				-sourceType "mel"
+				-itl 1
 				-enableCommandRepeat 1
 				-image "polyNormalUnlock.png"
 				;
