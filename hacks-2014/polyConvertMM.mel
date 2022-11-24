@@ -8,12 +8,12 @@
 // international treaties.
 //
 // The Data is provided for use exclusively by You. You have the right to use,
-// modify, and incorporate this Data into other products for purposes authorized 
+// modify, and incorporate this Data into other products for purposes authorized
 // by the Autodesk software license agreement, without fee.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. AUTODESK
 // DOES NOT MAKE AND HEREBY DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTIES
 // INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF NON-INFRINGEMENT,
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE
 // OF DEALING, USAGE, OR TRADE PRACTICE. IN NO EVENT WILL AUTODESK AND/OR ITS
 // LICENSORS BE LIABLE FOR ANY LOST REVENUES, DATA, OR PROFITS, OR SPECIAL,
 // DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES, EVEN IF AUTODESK AND/OR ITS
@@ -47,15 +47,15 @@ global proc polyConvertMM(string $parent){
 		menuItem
 			-label $toEdges
 			-subMenu 1
-			-radialPosition "N" 
+			-radialPosition "N"
 			;
 
 			menuItem
-				-label $toEdges 
+				-label $toEdges
 				-command ("ConvertSelectionToEdges;" +
 				"hilite; selectType -ocm -alc false;" +
 				"selectType -ocm -polymeshEdge true;")
-				-radialPosition "N" 
+				-radialPosition "N"
 				// Added by DRL:
 				-bld 1
 				
@@ -66,8 +66,8 @@ global proc polyConvertMM(string $parent){
 				-label (uiRes("m_polyConvertMM.kToContainedEdges"))
 				-annotation (getRunTimeCommandAnnotation("ConvertSelectionToContainedEdges"))
 				// Edited by DRL:
-				-radialPosition "NE" 
-				// -radialPosition "S" 
+				-radialPosition "NE"
+				// -radialPosition "S"
 				-command "ConvertSelectionToContainedEdges"
 				;
 
@@ -90,9 +90,9 @@ global proc polyConvertMM(string $parent){
 		
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kShrinkSelection")) 
-			-command "ShrinkPolygonSelectionRegion" 
-			-radialPosition "NW" 
+			-label (uiRes("m_polyConvertMM.kShrinkSelection"))
+			-command "ShrinkPolygonSelectionRegion"
+			-radialPosition "NW"
 			-annotation (getRunTimeCommandAnnotation ("ShrinkPolygonSelectionRegion"))
 			;
 		
@@ -101,49 +101,49 @@ global proc polyConvertMM(string $parent){
 			-command ("ConvertSelectionToUVs;" +
 				"hilite; selectType -ocm -alc false;" +
 				"selectType -ocm -polymeshUV true;")
-			-radialPosition "E" 
+			-radialPosition "E"
 			-annotation (getRunTimeCommandAnnotation ("ConvertSelectionToUVs"))
 			;
 		
 		menuItem
 			-label (uiRes("m_polyConvertMM.kEdgeLoopUtilities"))
 			-subMenu 1
-			-radialPosition "SE" 
+			-radialPosition "SE"
 			;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeLoop")) 
+				-label (uiRes("m_polyConvertMM.kToEdgeLoop"))
 				// Edited by DRL:
-				-command "DRL_edgeLoop" 
+				-command "DRL_edgeLoop"
 				-bld 1
-				// -command "SelectEdgeLoopSp" 
-				-radialPosition "SE" 
+				// -command "SelectEdgeLoopSp"
+				-radialPosition "SE"
 				-annotation (getRunTimeCommandAnnotation ("SelectEdgeLoop"))
 				;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeLoopAndDelete")) 
-				-command "PolyConvertToLoopAndDelete;" 
+				-label (uiRes("m_polyConvertMM.kToEdgeLoopAndDelete"))
+				-command "PolyConvertToLoopAndDelete;"
 				-annotation (getRunTimeCommandAnnotation ("PolyConvertToLoopAndDelete"))
-				-radialPosition "NE" 
+				-radialPosition "NE"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeLoopAndDuplicate")) 
+				-label (uiRes("m_polyConvertMM.kToEdgeLoopAndDuplicate"))
 				-command "PolyConvertToLoopAndDuplicate"
 				-annotation (getRunTimeCommandAnnotation ("PolyConvertToLoopAndDuplicate"))
-				-radialPosition "SW" 
+				-radialPosition "SW"
 				-enableCommandRepeat 1
 				;
 
-			menuItem 
+			menuItem
 				-label (uiRes("m_polyConvertMM.kSelectEdgeLoopTool"))
 				-annotation (getRunTimeCommandAnnotation ("SelectEdgeLoopTool"))
-				-command ("SelectEdgeLoopTool") 
+				-command ("SelectEdgeLoopTool")
 				// Edited by DRL:
-				-radialPosition "N" 
-				// -radialPosition "NW" 
+				-radialPosition "N"
+				// -radialPosition "NW"
 				;
 
 			// Added by DRL: {
@@ -159,15 +159,15 @@ global proc polyConvertMM(string $parent){
 			setParent -m ..;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kEdgeRingUtilities")) 
+			-label (uiRes("m_polyConvertMM.kEdgeRingUtilities"))
 			-subMenu 1
-			-radialPosition "SW" 
+			-radialPosition "SW"
 			;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeRing")) 
-				-command "SelectEdgeRingSp" 
-				-radialPosition "SW" 
+				-label (uiRes("m_polyConvertMM.kToEdgeRing"))
+				-command "SelectEdgeRingSp"
+				-radialPosition "SW"
 				// Added by DRL:
 				-bld 1
 				
@@ -175,28 +175,28 @@ global proc polyConvertMM(string $parent){
 				;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeRingAndSplit")) 
-				-command "PolyConvertToRingAndSplit" 
+				-label (uiRes("m_polyConvertMM.kToEdgeRingAndSplit"))
+				-command "PolyConvertToRingAndSplit"
 				-annotation (getRunTimeCommandAnnotation ("PolyConvertToRingAndSplit"))
-				-radialPosition "SE" 
+				-radialPosition "SE"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
-				-label (uiRes("m_polyConvertMM.kToEdgeRingAndCollapse")) 
-				-command "PolyConvertToRingAndCollapse;" 
+				-label (uiRes("m_polyConvertMM.kToEdgeRingAndCollapse"))
+				-command "PolyConvertToRingAndCollapse;"
 				-annotation (getRunTimeCommandAnnotation ("PolyConvertToRingAndCollapse"))
-				-radialPosition "NW" 
+				-radialPosition "NW"
 				-enableCommandRepeat 1
 				;
 
-			menuItem 
+			menuItem
 				-label (uiRes("m_polyConvertMM.kSelectEdgeRingTool"))
 				-annotation (getRunTimeCommandAnnotation ("SelectEdgeRingTool"))
 				-command ("SelectEdgeRingTool")
 				// Edited by DRL:
-				-radialPosition "N" 
-				// -radialPosition "NE" 
+				-radialPosition "N"
+				// -radialPosition "NE"
 				;
 			
 			// Added by DRL: {
@@ -213,17 +213,17 @@ global proc polyConvertMM(string $parent){
 			
 			string $toFaces = (uiRes("m_polyConvertMM.kToFaces"));
 			menuItem
-				-label $toFaces 
+				-label $toFaces
 				-subMenu 1
-				-radialPosition "S" 
+				-radialPosition "S"
 				;
 
 				menuItem
-					-label $toFaces 
+					-label $toFaces
 					-command ("ConvertSelectionToFaces;" +
 					"hilite; selectType -ocm -alc false;" +
 					"selectType -ocm -polymeshFace true;")
-					-radialPosition "S" 
+					-radialPosition "S"
 					// Added by DRL:
 					-bld 1
 					
@@ -234,8 +234,8 @@ global proc polyConvertMM(string $parent){
 					-label (uiRes("m_polyConvertMM.kToContainedFaces"))
 					-annotation (getRunTimeCommandAnnotation("ConvertSelectionToContainedFaces"))
 					// Edited by DRL:
-					-radialPosition "SE" 
-					// -radialPosition "N" 
+					-radialPosition "SE"
+					// -radialPosition "N"
 					-command "ConvertSelectionToContainedFaces"
 					;
 
@@ -257,48 +257,48 @@ global proc polyConvertMM(string $parent){
 				setParent -m ..;
 		
 		menuItem
-			-label (uiRes("m_subdConvertMM.kToVertices"))  
+			-label (uiRes("m_subdConvertMM.kToVertices"))
 			-command ("ConvertSelectionToVertices;" +
 				"hilite;	selectType -ocm -alc false;" +
-				"selectType -ocm -polymeshVertex true;") 
-			-radialPosition "W" 
+				"selectType -ocm -polymeshVertex true;")
+			-radialPosition "W"
 			-annotation (getRunTimeCommandAnnotation ("ConvertSelectionToVertices"))
 			;
 		
 		menuItem
 			-label (uiRes("m_polyConvertMM.kGrowSelection"))
-			-command "GrowPolygonSelectionRegion" 
-			-radialPosition "NE" 
+			-command "GrowPolygonSelectionRegion"
+			-radialPosition "NE"
 			-annotation (getRunTimeCommandAnnotation ("GrowPolygonSelectionRegion"))
 			;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kToFacePath")) 
-			-command "SelectFacePath" 
+			-label (uiRes("m_polyConvertMM.kToFacePath"))
+			-command "SelectFacePath"
 			-annotation (getRunTimeCommandAnnotation ("SelectFacePath"))
 			;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kToUVShell")) 
-			-command "polySelectBorderShell 0" 
+			-label (uiRes("m_polyConvertMM.kToUVShell"))
+			-command "polySelectBorderShell 0"
 			-annotation (getRunTimeCommandAnnotation ("ConvertSelectionToUVs"))
 			;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kToShell")) 
-			-command "ConvertSelectionToShell" 
+			-label (uiRes("m_polyConvertMM.kToShell"))
+			-command "ConvertSelectionToShell"
 			-annotation (getRunTimeCommandAnnotation ("ConvertSelectionToShell"))
 			;
 		
 		menuItem
-			-label (uiRes("m_polyConvertMM.kToShellBorder")) 
-			-command "ConvertSelectionToShellBorder" 
+			-label (uiRes("m_polyConvertMM.kToShellBorder"))
+			-command "ConvertSelectionToShellBorder"
 			-annotation (getRunTimeCommandAnnotation ("ConvertSelectionToShellBorder"))
 			;
 		
 		menuItem -divider true;
 
-		menuItem 
+		menuItem
 			-label (uiRes("m_polyConvertMM.kSelectBorderEdgeTool"))
 			-annotation (getRunTimeCommandAnnotation ("SelectBorderEdgeTool"))
 			-command ("SelectBorderEdgeTool")
@@ -307,14 +307,14 @@ global proc polyConvertMM(string $parent){
 		menuItem -divider true;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kSelectionBoundary")) 
-			-command "SelectPolygonSelectionBoundary" 
+			-label (uiRes("m_polyConvertMM.kSelectionBoundary"))
+			-command "SelectPolygonSelectionBoundary"
 			-annotation (getRunTimeCommandAnnotation ("SelectPolygonSelectionBoundary"))
 			;
 
 		menuItem
-			-label (uiRes("m_polyConvertMM.kSelectionConstraints")) 
-			-command "PolygonSelectionConstraints" 
+			-label (uiRes("m_polyConvertMM.kSelectionConstraints"))
+			-command "PolygonSelectionConstraints"
 			-annotation (getRunTimeCommandAnnotation ("PolygonSelectionConstraints"))
 			;
 		

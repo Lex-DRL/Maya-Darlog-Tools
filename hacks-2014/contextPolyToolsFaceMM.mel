@@ -8,12 +8,12 @@
 // international treaties.
 //
 // The Data is provided for use exclusively by You. You have the right to use,
-// modify, and incorporate this Data into other products for purposes authorized 
+// modify, and incorporate this Data into other products for purposes authorized
 // by the Autodesk software license agreement, without fee.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. AUTODESK
 // DOES NOT MAKE AND HEREBY DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTIES
 // INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF NON-INFRINGEMENT,
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE
 // OF DEALING, USAGE, OR TRADE PRACTICE. IN NO EVENT WILL AUTODESK AND/OR ITS
 // LICENSORS BE LIABLE FOR ANY LOST REVENUES, DATA, OR PROFITS, OR SPECIAL,
 // DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES, EVEN IF AUTODESK AND/OR ITS
@@ -38,106 +38,106 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kMergeFacesToCenter"))
-		-command "MergeToCenter;" 
-		-radialPosition "N" 
-		;	 
+		-command "MergeToCenter;"
+		-radialPosition "N"
+		;
 
 	setParent -menu ..;
 
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kExtrudeFace"))
-		-command "performPolyExtrude 0" 
-		-radialPosition "S" 
+		-command "performPolyExtrude 0"
+		-radialPosition "S"
 		-enableCommandRepeat 1
-		-image "polyExtrudeFacet.png" 
+		-image "polyExtrudeFacet.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kExtrudeFaceOptions"))
-		-command "performPolyExtrude 1" 
+		-command "performPolyExtrude 1"
 		-optionBox 1
-		-radialPosition "S" 
+		-radialPosition "S"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kWedgeFace"))
-		-command "WedgePolygon" 
-		-radialPosition "SW" 
+		-command "WedgePolygon"
+		-radialPosition "SW"
 		-enableCommandRepeat 1
-		-image "polyWedgeFace.png" 
+		-image "polyWedgeFace.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kWedgeFaceOptions"))
-		-command "WedgePolygonOptions" 
+		-command "WedgePolygonOptions"
 		-optionBox 1
-		-radialPosition "SW" 
+		-radialPosition "SW"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kPokeFace"))
-		-command "PokePolygon" 
-		-radialPosition "E" 
+		-command "PokePolygon"
+		-radialPosition "E"
 		-enableCommandRepeat 1
-		-image "polyPoke.png" 
+		-image "polyPoke.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kPokeFaceOptions"))
-		-command "PokePolygonOptions" 
+		-command "PokePolygonOptions"
 		-optionBox 1
-		-radialPosition "E" 
+		-radialPosition "E"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kFaceNormals"))
 		-subMenu 1
-		-radialPosition "SE" 
+		-radialPosition "SE"
 		-allowOptionBoxes 1
 		-postMenuCommandOnce 0
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kToggleFaceNormalDisplay"))
-		-command "polyOptions -r -f -dn on" 
-		-radialPosition "S" 
+		-command "polyOptions -r -f -dn on"
+		-radialPosition "S"
 		-enableCommandRepeat 1
-		-image "commandButton.png" 
+		-image "commandButton.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kReversePropagate"))
-		-command "polyNormal -normalMode 4 -ch 1" 
-		-radialPosition "NE" 
+		-command "polyNormal -normalMode 4 -ch 1"
+		-radialPosition "NE"
 		-enableCommandRepeat 1
-		-image "polyNormal.png" 
+		-image "polyNormal.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kConformNormals"))
-		-command "ConformPolygonNormals" 
-		-radialPosition "SE" 
+		-command "ConformPolygonNormals"
+		-radialPosition "SE"
 		-enableCommandRepeat 1
-		-image "polyNormalsConform.png" 
+		-image "polyNormalsConform.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kReverseNormals"))
-		-command "ReversePolygonNormals" 
-		-radialPosition "E" 
+		-command "ReversePolygonNormals"
+		-radialPosition "E"
 		-enableCommandRepeat 1
-		-image "polyNormal.png" 
+		-image "polyNormal.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kReverseNormalsOptions"))
-		-command "ReversePolygonNormalsOptions" 
+		-command "ReversePolygonNormalsOptions"
 		-optionBox 1
-		-radialPosition "E" 
+		-radialPosition "E"
 		-enableCommandRepeat 1
 		;
 
@@ -146,42 +146,42 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kCutFacesTool"))
-		-command "CutPolygon" 
-		-radialPosition "NE" 
+		-command "CutPolygon"
+		-radialPosition "NE"
 		-enableCommandRepeat 1
-		-image "polyCut.png" 
+		-image "polyCut.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kCutFacesToolOptions"))
-		-command "CutPolygonOptions" 
+		-command "CutPolygonOptions"
 		-optionBox 1
-		-radialPosition "NE" 
+		-radialPosition "NE"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kSplitPolygonTool"))
-		-command "InteractiveSplitTool" 
-		-radialPosition "W" 
+		-command "InteractiveSplitTool"
+		-radialPosition "W"
 		-enableCommandRepeat 1
-		-image "polySplitFacet.png" 
+		-image "polySplitFacet.png"
 		;
 		
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kSplitPolygonToolOptions"))
-		-command "InteractiveSplitToolOptions" 
+		-command "InteractiveSplitToolOptions"
 		-optionBox 1
-		-radialPosition "W" 
+		-radialPosition "W"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kPaintSelectFaces"))
-		-command "ArtPaintSelectTool" 
-		-radialPosition "NW" 
+		-command "ArtPaintSelectTool"
+		-radialPosition "NW"
 		-enableCommandRepeat 1
-		-image "artSelect.png" 
+		-image "artSelect.png"
 		;
 
 
@@ -212,18 +212,18 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kSmoothFaces"))
-		-command "SmoothPolygon;" 
-		-enableCommandRepeat 1 
+		-command "SmoothPolygon;"
+		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kSmoothFacesOptions"))
-		-command "SmoothPolygonOptions" 
+		-command "SmoothPolygonOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
 
-	menuItem 
+	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kAssignInvisibleFaces"))
 		-enableCommandRepeat true
 		-annotation (getRunTimeCommandAnnotation("PolyAssignSubdivHoleOptions"))
@@ -231,9 +231,9 @@ global proc contextPolyToolsFaceMM(){
 		-command "PolyAssignSubdivHole"
 		;
 
-	menuItem 
+	menuItem
 		-optionBox 1
-		-enableCommandRepeat false 
+		-enableCommandRepeat false
 		-annotation (getRunTimeCommandAnnotation("PolyAssignSubdivHoleOptions"))
 		-image "polyAssignSubdivHole.png"
 		-command "PolyAssignSubdivHoleOptions"
@@ -241,14 +241,14 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kAddDivisionsToFaces"))
-		-command "SubdividePolygon" 
+		-command "SubdividePolygon"
 		-enableCommandRepeat 1
-		-image "polySubdFacet.png" 
+		-image "polySubdFacet.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kAddDivisionsOptions"))
-		-command "SubdividePolygonOptions" 
+		-command "SubdividePolygonOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
@@ -258,7 +258,7 @@ global proc contextPolyToolsFaceMM(){
 		-annotation (getRunTimeCommandAnnotation("ConnectComponents"))
 		-image "polyConnectComponents.png"
 		-enableCommandRepeat 1
-		-command "ConnectComponents" 
+		-command "ConnectComponents"
 		;
 
 	menuItem -optionBox true
@@ -266,26 +266,26 @@ global proc contextPolyToolsFaceMM(){
 		-annotation (getRunTimeCommandAnnotation("ConnectComponentsOptions"))
 		-image "polyConnectComponents.png"
 		-enableCommandRepeat 1
-		-command "ConnectComponentsOptions" 
+		-command "ConnectComponentsOptions"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kTriangulateFaces"))
 		-command "Triangulate"
 		-enableCommandRepeat 1
-		-image "polyTriangulate.png" 
+		-image "polyTriangulate.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kQuadrangulateFaces"))
-		-command "Quadrangulate" 
+		-command "Quadrangulate"
 		-enableCommandRepeat 1
-		-image "polyQuad.png" 
+		-image "polyQuad.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kQuadrangulateFacesOptions"))
-		-command "QuadrangulateOptions" 
+		-command "QuadrangulateOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
@@ -294,12 +294,12 @@ global proc contextPolyToolsFaceMM(){
 		-label (uiRes("m_contextPolyToolsFaceMM.kReduceFaces"))
 		-command "ReducePolygon"
 		-enableCommandRepeat 1
-		-image "polyReduce.png" 
+		-image "polyReduce.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kReduceFacesOptions"))
-		-command "ReducePolygonOptions" 
+		-command "ReducePolygonOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
@@ -312,7 +312,7 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kBridgeFacesOptions"))
-		-command "BridgeEdgeOptions" 
+		-command "BridgeEdgeOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
@@ -323,41 +323,41 @@ global proc contextPolyToolsFaceMM(){
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kExtractFaces"))
-		-command "ExtractFace" 
+		-command "ExtractFace"
 		-enableCommandRepeat 1
-		-image "polyChipOff.png" 
+		-image "polyChipOff.png"
 		;
 
 	menuItem
-		-label (uiRes("m_contextPolyToolsFaceMM.kExtractFacesOptions")) 
-		-command "ExtractFaceOptions" 
+		-label (uiRes("m_contextPolyToolsFaceMM.kExtractFacesOptions"))
+		-command "ExtractFaceOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kDuplicateFace"))
-		-command "DuplicateFace" 
+		-command "DuplicateFace"
 		-enableCommandRepeat 1
-		-image "polyDuplicateFacet.png" 
+		-image "polyDuplicateFacet.png"
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kDuplicateFaceOptions"))
-		-command "DuplicateFaceOptions" 
+		-command "DuplicateFaceOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kTransformComponent"))
-		-command "MovePolygonComponent;" 
+		-command "MovePolygonComponent;"
 		-enableCommandRepeat 1
 		;
 
 	menuItem
 		-label (uiRes("m_contextPolyToolsFaceMM.kTransformComponentOptions"))
-		-command "MovePolygonComponentOptions" 
+		-command "MovePolygonComponentOptions"
 		-optionBox 1
 		-enableCommandRepeat 1
 		;
@@ -381,7 +381,7 @@ global proc contextPolyToolsFaceMM(){
 
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kToggleBackfaceCulling"))
-	            -command "int $cond[1]=`polyOptions -q -fb`; if ($cond[0]) polyOptions -bc; else polyOptions -fb;" 
+	            -command "int $cond[1]=`polyOptions -q -fb`; if ($cond[0]) polyOptions -bc; else polyOptions -fb;"
 	            -enableCommandRepeat 1
 	            ;
 	
@@ -391,26 +391,26 @@ global proc contextPolyToolsFaceMM(){
 	
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kToggleFaceCenters"))
-	            -command "TogglePolygonFaceCenters" 
+	            -command "TogglePolygonFaceCenters"
 	            -enableCommandRepeat 1
 	            ;
 			
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kToggleFaceNormals"))
-	            -command "polyOptions -r -f -dn on" 
+	            -command "polyOptions -r -f -dn on"
 	            -enableCommandRepeat 1
 	            ;
 
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kToggleFaceNumbers"))
-	            -command "polyOptions -activeObjects -r -din 0 0 1 0" 
+	            -command "polyOptions -activeObjects -r -din 0 0 1 0"
 	            -enableCommandRepeat 1
-	            -image "menuIconDisplay.png" 
+	            -image "menuIconDisplay.png"
 	            ;
 	
 			menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kToggleHiddenTriangles"))
-	            -command "polyOptions -r -dt 1" 
+	            -command "polyOptions -r -dt 1"
 	            -enableCommandRepeat 1
 	            ;
 
@@ -420,7 +420,7 @@ global proc contextPolyToolsFaceMM(){
 	
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsFaceMM.kResetPolygonDisplay"))
-	            -command "polyOptions -activeObjects -ae  -sb 3  -db 0  -dmb 0  -dv 0  -dn 0 -facet  -dc 0  -dt 0  -dw 0  -din 0 0 0 0  -sn 0.4 -bc  -duv 0  -uvt 0  -cs 0  -cm diffuse  -bcv 1" 
+	            -command "polyOptions -activeObjects -ae  -sb 3  -db 0  -dmb 0  -dv 0  -dn 0 -facet  -dc 0  -dt 0  -dw 0  -din 0 0 0 0  -sn 0.4 -bc  -duv 0  -uvt 0  -cs 0  -cm diffuse  -bcv 1"
 	            -enableCommandRepeat 1
 	            ;
 			

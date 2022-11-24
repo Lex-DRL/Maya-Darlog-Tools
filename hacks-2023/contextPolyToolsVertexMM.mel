@@ -26,42 +26,42 @@ global proc contextPolyToolsVertexMM(){
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kExtrudeVertex"))
-				-command "performPolyExtrude 0" 
-				-radialPosition "S" 
+				-command "performPolyExtrude 0"
+				-radialPosition "S"
 				-enableCommandRepeat 1
-				-image "polyExtrudeVertex.png" 
+				-image "polyExtrudeVertex.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kExtrudeVertexOptions"))
-				-command "performPolyExtrude 1" 
+				-command "performPolyExtrude 1"
 				-optionBox 1
-				-radialPosition "S" 
+				-radialPosition "S"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kChamferVertex"))
-				-command "ChamferVertex" 
-				-radialPosition "E" 
+				-command "ChamferVertex"
+				-radialPosition "E"
 				-enableCommandRepeat 1
-				-image "polyChamfer.png" 
+				-image "polyChamfer.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kChamferVertexOptions"))
-				-command "ChamferVertexOptions" 
+				-command "ChamferVertexOptions"
 				-optionBox 1
-				-radialPosition "E" 
+				-radialPosition "E"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kDeleteVertex"))
-				-command "DeleteVertex" 
-				-radialPosition "SW" 
+				-command "DeleteVertex"
+				-radialPosition "SW"
 				-enableCommandRepeat 1
-				-image "polyDelVertex.png" 
+				-image "polyDelVertex.png"
 				;
 
 
@@ -69,56 +69,56 @@ global proc contextPolyToolsVertexMM(){
 				-label (uiRes("m_contextPolyToolsVertexMM.kVertexNormals"))
 				-subMenu 1
 				-tearOff 0
-				-radialPosition "SE" 
+				-radialPosition "SE"
 				-allowOptionBoxes 1
 				-postMenuCommandOnce 0
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kToggleVertexNormalDisplay"))
-				-command "polyOptions -r -pt -dn on" 
-				-radialPosition "S" 
+				-command "polyOptions -r -pt -dn on"
+				-radialPosition "S"
 				-enableCommandRepeat 1
-				-image "commandButton.png" 
+				-image "commandButton.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kAverageNormals"))
-				-command "AveragePolygonNormals" 
-				-radialPosition "NE" 
+				-command "AveragePolygonNormals"
+				-radialPosition "NE"
 				-enableCommandRepeat 1
-				-image "polyNormalAverage.png" 
+				-image "polyNormalAverage.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kAverageNormalsOptions"))
-				-command "AveragePolygonNormalsOptions" 
+				-command "AveragePolygonNormalsOptions"
 				-optionBox 1
-				-radialPosition "NE" 
+				-radialPosition "NE"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kVertexNormalEditTool"))
-				-command "PolygonNormalEditTool" 
-				-radialPosition "E" 
+				-command "PolygonNormalEditTool"
+				-radialPosition "E"
 				-enableCommandRepeat 1
-				-image "vertexNormalEdit.png" 
+				-image "vertexNormalEdit.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kSetNormalsToFace"))
-				-command "SetToFaceNormals" 
-				-radialPosition "SE" 
+				-command "SetToFaceNormals"
+				-radialPosition "SE"
 				-enableCommandRepeat 1
-				-image "polyNormalSetToFace.png" 
+				-image "polyNormalSetToFace.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kSetNormalsToFaceOptions"))
-				-command "SetToFaceNormalsOptions" 
+				-command "SetToFaceNormalsOptions"
 				-optionBox 1
-				-radialPosition "SE" 
+				-radialPosition "SE"
 				-enableCommandRepeat 1
 				;
 
@@ -128,47 +128,47 @@ global proc contextPolyToolsVertexMM(){
 				-label (uiRes("m_contextPolyToolsVertexMM.kMergeVerticesMenu"))
 				-subMenu 1
 				-tearOff 0
-				-radialPosition "N" 
+				-radialPosition "N"
 				-allowOptionBoxes 1
 				-postMenuCommandOnce 0
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kMergeVertices"))
-				-command "performPolyMerge 0" 
-				-radialPosition "NE" 
+				-command "performPolyMerge 0"
+				-radialPosition "NE"
 				-enableCommandRepeat 1
-				-image "polyMergeVertex.png" 
+				-image "polyMergeVertex.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kMergeVerticesOptions"))
-				-command "performPolyMerge 1" 
+				-command "performPolyMerge 1"
 				-optionBox 1
-				-radialPosition "NE" 
+				-radialPosition "NE"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kMergeVerticesToCenter"))
-				-command "MergeToCenter" 
-				-radialPosition "N" 
+				-command "MergeToCenter"
+				-radialPosition "N"
 				-enableCommandRepeat 1
-				;		
+				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kPolyBuildMergeVertTool"))
 				-annotation (getRunTimeCommandAnnotation("MergeVertexTool"))
-				-image "weld_NEX32.png" 
+				-image "weld_NEX32.png"
 				// Edited by DRL:
 				-radialPosition "W"
 				// -radialPosition "S"
-				-command "MergeVertexTool" 
+				-command "MergeVertexTool"
 				;
 
 			menuItem -optionBox true
 				-annotation (getRunTimeCommandAnnotation("MergeVertexToolOptions"))
-				-image "weld_NEX32.png" 
+				-image "weld_NEX32.png"
 				// Edited by DRL:
 				-radialPosition "W"
 				// -radialPosition "S"
@@ -179,10 +179,10 @@ global proc contextPolyToolsVertexMM(){
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kAverageVertices"))
-				-command "AverageVertex" 
-				-radialPosition "NE" 
+				-command "AverageVertex"
+				-radialPosition "NE"
 				-enableCommandRepeat 1
-				-image "polyAverageVertex.png" 
+				-image "polyAverageVertex.png"
 				;
 
 			menuItem
@@ -190,40 +190,40 @@ global proc contextPolyToolsVertexMM(){
 				-label (uiRes("m_contextPolyToolsVertexMM.kMultiCutTool"))
 				-command "dR_multiCutTool"
 				-en $mtkEnable
-				-radialPosition "W" 
+				-radialPosition "W"
 				-allowOptionBoxes 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kMultiCutToolOptions"))
-				-command "dR_multiCutTool; toolPropertyWindow;" 
+				-command "dR_multiCutTool; toolPropertyWindow;"
 				-optionBox 1
-				-radialPosition "W" 
+				-radialPosition "W"
 				-enableCommandRepeat 1
 				-enable $mtkEnable
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kPaintSelectVertices"))
-				-command "ArtPaintSelectTool" 
-				-radialPosition "NW" 
+				-command "ArtPaintSelectTool"
+				-radialPosition "NW"
 				-enableCommandRepeat 1
-				-image "artSelect.png" 
+				-image "artSelect.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kCreaseTool"))
-				-command "PolyCreaseTool" 
+				-command "PolyCreaseTool"
 				-enableCommandRepeat 1
-				-image "polyCrease.png" 
+				-image "polyCrease.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kCreaseToolOptions"))
-				-command "PolyCreaseToolOptions" 
+				-command "PolyCreaseToolOptions"
 				-optionBox 1
 				-enableCommandRepeat 1
-				-image "polyCrease.png" 
+				-image "polyCrease.png"
 				;
 
 			menuItem
@@ -231,7 +231,7 @@ global proc contextPolyToolsVertexMM(){
 				-annotation (getRunTimeCommandAnnotation("ConnectComponents"))
 				-image "polyConnectComponents.png"
 				-enableCommandRepeat 1
-				-command "ConnectComponents" 
+				-command "ConnectComponents"
 				;
 
 			menuItem -optionBox true
@@ -239,7 +239,7 @@ global proc contextPolyToolsVertexMM(){
 				-annotation (getRunTimeCommandAnnotation("ConnectComponentsOptions"))
 				-image "polyConnectComponents.png"
 				-enableCommandRepeat 1
-				-command "ConnectComponentsOptions" 
+				-command "ConnectComponentsOptions"
 				;
 
 			menuItem
@@ -247,18 +247,18 @@ global proc contextPolyToolsVertexMM(){
 				-annotation (getRunTimeCommandAnnotation("DetachComponent"))
 				-image "polySplitVertex.png"
 				-enableCommandRepeat 1
-				-command "DetachComponent" 
+				-command "DetachComponent"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kTransformComponent"))
-				-command "MovePolygonComponent;" 
+				-command "MovePolygonComponent;"
 				-enableCommandRepeat 1
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kTransformComponentOptions"))
-				-command "MovePolygonComponentOptions" 
+				-command "MovePolygonComponentOptions"
 				-optionBox 1
 				-enableCommandRepeat 1
 				;
@@ -267,13 +267,13 @@ global proc contextPolyToolsVertexMM(){
 				-version 2015
 				-label (uiRes("m_contextPolyToolsVertexMM.kMTKConnectTool"))
 				-annotation (uiRes("m_contextPolyToolsVertexMM.kMTKConnectToolAnn"))
-				-command "dR_connectTool" 
+				-command "dR_connectTool"
 				-enable $mtkEnable
 				MTKConnectToolMM;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kConnectToolOptions"))
-				-command "dR_connectTool; toolPropertyWindow;" 
+				-command "dR_connectTool; toolPropertyWindow;"
 				-optionBox 1
 				-enableCommandRepeat 1
 				-enable $mtkEnable
@@ -286,14 +286,14 @@ global proc contextPolyToolsVertexMM(){
 			menuItem
 				-version 2018
 				-label (uiRes("m_contextPolyToolsVertexMM.kCircularize"))
-				-image "polyCircularize.png" 
+				-image "polyCircularize.png"
 				-annotation (uiRes("m_contextPolyToolsVertexMM.kCircularizeAnn"))
-				-command "PolyCircularize" 
+				-command "PolyCircularize"
 				PolyCircularizeMM;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kCircularizeOptions"))
-				-command "PolyCircularizeOptions;" 
+				-command "PolyCircularizeOptions;"
 				-optionBox 1
 				-enableCommandRepeat 1
 				;
@@ -316,14 +316,14 @@ global proc contextPolyToolsVertexMM(){
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kApplyColor"))
-				-command "PolygonApplyColor" 
+				-command "PolygonApplyColor"
 				-enableCommandRepeat 1
-				-image "polyApplyColor.png" 
+				-image "polyApplyColor.png"
 				;
 
 			menuItem
 				-label (uiRes("m_contextPolyToolsVertexMM.kApplyColorOptions"))
-				-command "PolygonApplyColorOptions" 
+				-command "PolygonApplyColorOptions"
 				-optionBox 1
 				-enableCommandRepeat 1
 				;
@@ -342,9 +342,9 @@ global proc contextPolyToolsVertexMM(){
 	
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsVertexMM.kToggleBackfaceCulling"))
-	            -command "int $cond[1]=`polyOptions -q -fb`; if ($cond[0]) polyOptions -bc; else polyOptions -fb;" 
+	            -command "int $cond[1]=`polyOptions -q -fb`; if ($cond[0]) polyOptions -bc; else polyOptions -fb;"
 	            -enableCommandRepeat 1
-	            -image "commandButton.png" 
+	            -image "commandButton.png"
 	            ;
 	
 	        menuItem
@@ -354,25 +354,25 @@ global proc contextPolyToolsVertexMM(){
 			
 			menuItem
 	            -label (uiRes("m_contextPolyToolsVertexMM.kToggleVertices"))
-	            -command "polyOptions -r -displayVertex 1" 
+	            -command "polyOptions -r -displayVertex 1"
 	            -enableCommandRepeat 1
-	            -image "menuIconDisplay.png" 
+	            -image "menuIconDisplay.png"
 	            ;
 			
 			
 			menuItem
 	            -label (uiRes("m_contextPolyToolsVertexMM.kToggleVertexNormals"))
-	            -command "polyOptions -r -pt -dn on" 
+	            -command "polyOptions -r -pt -dn on"
 	            -enableCommandRepeat 1
-	            -image "commandButton.png" 
+	            -image "commandButton.png"
 	            ;
 
 			
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsVertexMM.kToggleVertexNumbers"))
-	            -command "polyOptions -activeObjects -r -din 1 0 0 0" 
+	            -command "polyOptions -activeObjects -r -din 1 0 0 0"
 	            -enableCommandRepeat 1
-	            -image "menuIconDisplay.png" 
+	            -image "menuIconDisplay.png"
 	            ;
 	
 			
@@ -382,9 +382,9 @@ global proc contextPolyToolsVertexMM(){
 	
 	        menuItem
 	            -label (uiRes("m_contextPolyToolsVertexMM.kResetPolygonDisplay"))
-	            -command "polyOptions -activeObjects -ae  -sb 3  -db 0  -dmb 0  -dv 0  -dn 0 -facet  -dc 0  -dt 0  -dw 0  -din 0 0 0 0  -sn 0.4 -bc  -duv 0  -uvt 0  -cs 0  -cm diffuse  -bcv 1" 
+	            -command "polyOptions -activeObjects -ae  -sb 3  -db 0  -dmb 0  -dv 0  -dn 0 -facet  -dc 0  -dt 0  -dw 0  -din 0 0 0 0  -sn 0.4 -bc  -duv 0  -uvt 0  -cs 0  -cm diffuse  -bcv 1"
 	            -enableCommandRepeat 1
-	            -image "commandButton.png" 
+	            -image "commandButton.png"
 	            ;
 			
 			setParent -menu ..;

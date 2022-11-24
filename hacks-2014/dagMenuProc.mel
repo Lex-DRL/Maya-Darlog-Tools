@@ -8,12 +8,12 @@
 // international treaties.
 //
 // The Data is provided for use exclusively by You. You have the right to use,
-// modify, and incorporate this Data into other products for purposes authorized 
+// modify, and incorporate this Data into other products for purposes authorized
 // by the Autodesk software license agreement, without fee.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND. AUTODESK
 // DOES NOT MAKE AND HEREBY DISCLAIMS ANY EXPRESS OR IMPLIED WARRANTIES
 // INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF NON-INFRINGEMENT,
-// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE 
+// MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, OR ARISING FROM A COURSE
 // OF DEALING, USAGE, OR TRADE PRACTICE. IN NO EVENT WILL AUTODESK AND/OR ITS
 // LICENSORS BE LIABLE FOR ANY LOST REVENUES, DATA, OR PROFITS, OR SPECIAL,
 // DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES, EVEN IF AUTODESK AND/OR ITS
@@ -38,13 +38,13 @@ global proc maintainActiveChangeSelectMode( string $item )
 	string $unhiliteList[] = `listRelatives -fullPath -shapes $item`;
 	$unhiliteList[`size $unhiliteList`] = $item;
 
-	hilite -unHilite $unhiliteList; 
+	hilite -unHilite $unhiliteList;
 
 	int $aa = `selectPref -q -affectsActive`;
 	if (1 == $aa)
 		selectPref -affectsActive 0;
 
-	changeSelectMode -object; 
+	changeSelectMode -object;
 
 	if (1 == $aa)
 		selectPref -affectsActive 1;
@@ -84,7 +84,7 @@ proc optionalDagMenuProc( string $parent, string $item )
 		switch( $nt ) {
 		  case "subdiv":
 			subdOptionalDagMenuProc( $parent, $item );
-			menuItem -d true; 
+			menuItem -d true;
 			break;
 
 		  default:
@@ -134,9 +134,9 @@ proc int isIKcontroller(string $item)
 
 global proc motionTrailToggleBreakdown(string $object, float $time, int $makeBreakdown)
 {
-	keyframe -at "translateX" 
-			-at "translateY" 
-			-at "translateZ" 
+	keyframe -at "translateX"
+			-at "translateY"
+			-at "translateZ"
 			-t $time
 			-breakdown $makeBreakdown
 			$object;
@@ -246,7 +246,7 @@ createFBIKmenuItems(string $parent,
 		string $reachKeyingModeSimple = (uiRes("m_dagMenuProc.kSimpleeachMode"));
 		if (!`optionVar -exists fbikKeyOption`) {
 			//3 == simple key
-			optionVar -intValue fbikKeyOption 3;    
+			optionVar -intValue fbikKeyOption 3;
 		}
 		int $rkm = `optionVar -q fbikKeyOption`;
 		switch ($rkm)
@@ -260,19 +260,19 @@ createFBIKmenuItems(string $parent,
 		case 3:
 			$reachKeyingMode = $reachKeyingModeSimple;
 			break;
-		}	
+		}
 		
 		menuItem -rp $ikReachModeLocation -label $reachKeyingMode
 			-subMenu true
 			-annotation (uiRes("m_dagMenuProc.kDetermineHowAnnot")) ;
 		
-		menuItem -rp "S" -label (uiRes("m_dagMenuProc.kIK")) 
+		menuItem -rp "S" -label (uiRes("m_dagMenuProc.kIK"))
 			-command FBIKReachKeyingOptionIK;
 		
-		menuItem -rp "N" -label (uiRes("m_dagMenuProc.kFK")) 
+		menuItem -rp "N" -label (uiRes("m_dagMenuProc.kFK"))
 			-command FBIKReachKeyingOptionFK;
 		
-		menuItem -rp "E" -label (uiRes("m_dagMenuProc.kSimpleNoReach")) 
+		menuItem -rp "E" -label (uiRes("m_dagMenuProc.kSimpleNoReach"))
 			-command FBIKReachKeyingOptionSimple;
 		
 		setParent -m $parent;
@@ -291,11 +291,11 @@ createFBIKmenuItems(string $parent,
 	int $bodyPartKeyingMode = 2; // 2 == body part
 	if (`optionVar -exists keyFullBody`) {
 	    
-		$bodyPartKeyingMode = `optionVar -query keyFullBody`;    
-	}		
+		$bodyPartKeyingMode = `optionVar -query keyFullBody`;
+	}
 	else {
 	    optionVar -intValue keyFullBody 2;
-	}		
+	}
 
 	string $fullBodyLabel = (uiRes("m_dagMenuProc.kKeyFullBody"));
 	if($bodyPartKeyingMode == 1) { //full body
@@ -334,7 +334,7 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
     int $quadFilled = 0;
 	int $isJoint = (nodeType($item) == "joint");
 	
-	// Check if the current context is the skinPaint context 
+	// Check if the current context is the skinPaint context
 	// and the the joint is connected to a skinCluster
 	//
 	string  $currContext = `currentCtx`;
@@ -350,7 +350,7 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
 			string $conn;
 			for($conn in $connL) {
 				if (`nodeType $conn` == "skinCluster")
-				{	
+				{
 					// select the surface (not the joint) and set
 					// the joint as the current influence
 					//
@@ -363,7 +363,7 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
 							$currSelString += ($currObj+" ");
 						}
 					}
-					menuItem -label $paintWeights 
+					menuItem -label $paintWeights
 						-echoCommand true
 						-c ($currSelString+"; setSmoothSkinInfluence " + $item)
 						-rp $quadrant
@@ -374,7 +374,7 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
 			}
 		}
 	}		// menu for skinCluster paint
-	// Check if the current context is the clusterPaint context 
+	// Check if the current context is the clusterPaint context
 	// and the the joint is connected to a jointCluster
 	//
 	else if ( $isJoint && ($currTool == "artAttr") ) {
@@ -387,7 +387,7 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
 				{
 					string $artCommand = "artAttrCtx" ;
 					string $attribute = "cluster." + $conn +  ".weights" ;
-					menuItem -label $paintWeights 
+					menuItem -label $paintWeights
 						-echoCommand true
 						// the following command doesnot update the UI hence we use the next one
 						//-c ("artAttrCtx -e -pas \"cluster." + $conn +  ".weights\" `currentCtx`")
@@ -400,18 +400,18 @@ proc int checkForSkinInfluenceItem(string $item, string $quadrant)
 		}
 	}
 	// menu for joint-set paint
-	// Check if the current context is the setPaint context 
+	// Check if the current context is the setPaint context
 	// and the the joint is connected to a objectSet via jointCluster
 	//
 	else if ( $isJoint && ($currTool == "artSetPaint") ) {
 		string $connL[] = `listConnections ($item+".worldMatrix")`;
 		string $conn;
 		for($conn in $connL) {
-			if (`nodeType $conn` == "jointCluster") {	
+			if (`nodeType $conn` == "jointCluster") {
 				string $connS[] = `listConnections ($conn+".message")`;
 				for($set in $connS) {
 					if (`nodeType $set` == "objectSet") {
-						menuItem -label (uiRes("m_dagMenuProc.kPaintSetMembership")) 
+						menuItem -label (uiRes("m_dagMenuProc.kPaintSetMembership"))
 							-echoCommand true
 							// the following command doesnot update the UI hence we use the next one
 							//-c ("artSetPaintCtx -e -settomodify " + $set + " `currentCtx`")
@@ -465,10 +465,10 @@ global proc string[] objectSelectMasks(string $item)
 	switch ($nt) {
 		case "lattice":
 			$maskList[0] = "latticePoint";
-			break;	
+			break;
 		case "locator":
 			$maskList[0] = "locator";
-			break;	
+			break;
 		case "nurbsCurve":
 			$maskList[0] = "curveParameterPoint";
 			$maskList[1] = "controlVertex";
@@ -487,7 +487,7 @@ global proc string[] objectSelectMasks(string $item)
 			$maskList[2] = "surfaceParameterPoint";
 			$maskList[3] = "hull";
 			$maskList[4] = "surfaceFace";
-			$maskList[5] = "surfaceUV"; 
+			$maskList[5] = "surfaceUV";
 			if (objectIsTrimmed($shape)) {
 				$maskList[6] = "surfaceEdge";
 			}
@@ -526,10 +526,10 @@ global proc string[] objectSelectMasks(string $item)
 			$maskList[0] = "springComponent";	// only one choice
 			break;
 		case "subdiv":
- 			$maskList[0] = "subdivMeshPoint";	
- 			$maskList[1] = "subdivMeshEdge";	
- 			$maskList[2] = "subdivMeshFace";	
- 			$maskList[3] = "subdivMeshUV";	
+ 			$maskList[0] = "subdivMeshPoint";
+ 			$maskList[1] = "subdivMeshEdge";
+ 			$maskList[2] = "subdivMeshFace";
+ 			$maskList[3] = "subdivMeshUV";
 			break;
 	}
 
@@ -543,16 +543,16 @@ global proc string[] objectSelectMasks(string $item)
 
 global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 {
-	string $result = $mel; 
+	string $result = $mel;
  
-	switch ($mel) 
+	switch ($mel)
 	{
 		case "latticePoint":
 			$result = (uiRes("m_dagMenuProc.kLatticePoint"));
 			break;
 		case "locator":
 			$result = (uiRes("m_dagMenuProc.kLocator"));
-			break;		 
+			break;
 		case "bezierAnchor":
 			$result = (uiRes("m_dagMenuProc.kBezierAnchor"));
 			break;
@@ -567,7 +567,7 @@ global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 			break;
 		case "isoparm":
 			$result = (uiRes("m_dagMenuProc.kIsoparm"));
-			break;	 	 
+			break;
 		case "subdivMeshEdge":
 			// fall through
 		case "edge":
@@ -578,18 +578,18 @@ global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 		case "vertex":
 			$result = (uiRes("m_dagMenuProc.kVertex"));
 			break;
-		case "joint":		
+		case "joint":
 			$result = (uiRes("m_dagMenuProc.kJoint"));
 			break;
-		case "ikHandle":	
+		case "ikHandle":
 			$result = (uiRes("m_dagMenuProc.kIkHandle"));
 			break;
-		case "hikEffector":	
+		case "hikEffector":
 			$result = (uiRes("m_dagMenuProc.kHikEffector"));
-			break;	 
+			break;
 		case "motionTrail":
 			$result = (uiRes("m_dagMenuProc.kMotionTrail"));
-			break;	 
+			break;
 		case "ikfkHandle":
 			$result = (uiRes("m_dagMenuProc.kIkfkHandle"));
 			break;
@@ -598,7 +598,7 @@ global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 			break;
 		case "surfaceParameterPoint":
 			$result = (uiRes("m_dagMenuProc.kSurfacePoint"));
-			break;	
+			break;
 		case "curveParameterPoint":
 			$result = (uiRes("m_dagMenuProc.kCurvePoint"));
 			break;
@@ -617,7 +617,7 @@ global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 			// fall through
 		case "facet":
 			$result = (uiRes("m_dagMenuProc.kFace"));
-			break;	
+			break;
 		case "pvf":
 			$result = (uiRes("m_dagMenuProc.kVertexFace"));
 			break;
@@ -627,10 +627,10 @@ global proc string dagMenuProc_selectionMask_melToUI( string $mel )
 			break;
 		case "springComponent":
 			$result = (uiRes("m_dagMenuProc.kSpring"));
-			break;	 	 
+			break;
 		case "meshComponents":
 			$result = (uiRes("m_dagMenuProc.kMultiComp"));
-			break;	 	 
+			break;
 		default:
 			uiToMelMsg( "dagMenuProc_selectionMask_melToUI", $mel, 1 );
 			break;
@@ -653,22 +653,22 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 {
     // Check if the current context is the skinPaint context
 	// and the the joint is connected to a skinCluster
-	//		
+	//
 	
-	string  $currContext = `currentCtx`;	
+	string  $currContext = `currentCtx`;
 	if ( $currContext == "artAttrSkinContext" )
 	{
 		string $whichTool = `artAttrCtx -q -whichTool $currContext`;
 		if ( $whichTool == "skinWeights" )
-		{								
+		{
 			
-			if (`attributeQuery -n $item -ex liw`) 
+			if (`attributeQuery -n $item -ex liw`)
 		    {
 		    
 			    menuItem -l (uiRes("m_dagMenuProc.kPaintPickValue"))
 				    -echoCommand true
 				    -c "artAttrCtx -e -pickValue `currentCtx`"
-				    -rp "S";				
+				    -rp "S";
     				
 			    $radialPositionUsed[size($radialPositionUsed)] = "S";
 		
@@ -723,7 +723,7 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 					    -echoCommand true
 					    -c (" setAttr " + $item + ".displayLocalAxis 0" )
 					    -rp "SW";
-			    }						
+			    }
 			    $radialPositionUsed[size($radialPositionUsed)] = "SW";
 
                 string $selectVertCmd;
@@ -740,7 +740,7 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
             
                 string $addSelectedVerticesCmd = "artSkinSelectVerticesForInfluence " + $item + " 1 0";
 			    menuItem -l (uiRes("m_dagMenuProc.kAddSelectedVertices"))
-				    -echoCommand true						
+				    -echoCommand true
 				    -c $addSelectedVerticesCmd
 				    -rp "E";
     				
@@ -748,9 +748,9 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 
                 string $removeSelectedVerticesCmd = "artSkinSelectVerticesForInfluence " + $item + " 0 1";
 			    menuItem -l (uiRes("m_dagMenuProc.kDeselectAffectedVertices"))
-				    -echoCommand true	
-				    -c $removeSelectedVerticesCmd					
-				    -rp "SE";					
+				    -echoCommand true
+				    -c $removeSelectedVerticesCmd
+				    -rp "SE";
 				    			
 			    $radialPositionUsed[size($radialPositionUsed)] = "SE";
 						
@@ -761,14 +761,14 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 				-c $selectCmd
 				-rp "N";
 				
-				$radialPositionUsed[size($radialPositionUsed)] = "N";							    
+				$radialPositionUsed[size($radialPositionUsed)] = "N";
 			}
 			else
 			{
 			    
 			    string $setPaintModeCmd = "artAttrSkinSetPaintMode 1";
 			    menuItem -l (uiRes("m_dagMenuProc.kSetPaintMode"))
-				    -echoCommand true						
+				    -echoCommand true
 				    -c $setPaintModeCmd
 				    -rp "NW";
     				
@@ -776,7 +776,7 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 			    
 			    string $setSelectModeCmd = "artAttrSkinSetPaintMode 0";
 			    menuItem -l (uiRes("m_dagMenuProc.kSetSelectMode"))
-				    -echoCommand true						
+				    -echoCommand true
 				    -c $setSelectModeCmd
 				    -rp "E";
     				
@@ -784,12 +784,12 @@ global proc populateMMForPaintSkinWeights(string $item,string $radialPositionUse
 
                 string $setPaintSelectModeCmd = "artAttrSkinSetPaintMode 2";
 			    menuItem -l (uiRes("m_dagMenuProc.kSetPaintSelectMode"))
-				    -echoCommand true	
-				    -c $setPaintSelectModeCmd					
-				    -rp "SE";					
+				    -echoCommand true
+				    -c $setPaintSelectModeCmd
+				    -rp "SE";
 				    			
 			    $radialPositionUsed[size($radialPositionUsed)] = "SE";
-			}			
+			}
 		}
 	}
 }
@@ -811,7 +811,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 	int $isJointObject    = false;
 	int $isHikEffector	  = false;
 	int $isIkHandleObject = false;
-	int $isIkFkHandleObject = false;	
+	int $isIkFkHandleObject = false;
 	int $isParticleObject = false;
 	int $isSpringObject   = false;
 	int $isSubdivObject   = false;
@@ -853,7 +853,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 		$maxRadialPos--; // ikfkHandle does not populate like other masks
 	}
 
-	$hasComponents = $isLatticeObject || 
+	$hasComponents = $isLatticeObject ||
 					 $isParticleObject ||
 					 $isSubdivObject ||
 					 $isSpringObject ||
@@ -861,9 +861,9 @@ global proc createSelectMenuItems(string $parent, string $item)
 					 $isPolyObject ||
 					 $isBezierObject;
 
-	// NOTE: 
+	// NOTE:
 	//			If the object has selectable components, then the
-	//		radial position "NE" will be used for the menuItem:  
+	//		radial position "NE" will be used for the menuItem:
 	//		"Revert back to object mode."
 	//
 	setParent -menu $parent;
@@ -878,14 +878,14 @@ global proc createSelectMenuItems(string $parent, string $item)
 	
 	string $radialPositionUsed[];
     
-    string $disableikHandle = (uiRes("m_dagMenuProc.kDisableIkHandle")); 
+    string $disableikHandle = (uiRes("m_dagMenuProc.kDisableIkHandle"));
     string $enableIkHandle  = (uiRes("m_dagMenuProc.kEnableIkHandle"));
 	string $setPreferred	= (uiRes("m_dagMenuProc.kSetPreferredAngle"));
-	string $assumePreferred = (uiRes("m_dagMenuProc.kAssumePreferredAngle")); 
+	string $assumePreferred = (uiRes("m_dagMenuProc.kAssumePreferredAngle"));
 	
 	if( $isBezierObject ) {
-		for ($i = 0; $i < size($maskList); $i++) {			  
-			  $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;			  
+		for ($i = 0; $i < size($maskList); $i++) {
+			  $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;
 			if ($maskList[$i] != "ikfkHandle") {
 				string $mask = $maskList[$i];
 				if( $mask == "bezierAnchor" )
@@ -904,26 +904,26 @@ global proc createSelectMenuItems(string $parent, string $item)
 			}
 		}
 	}
-	else if ($isNurbObject) {        
+	else if ($isNurbObject) {
         
 		populateMMForPaintSkinWeights($item,$radialPositionUsed);
 		string $listRelatives[] = `listRelatives -pa -s $item`;
         
 		if ( (size($listRelatives) > 0) && ( size ( `findRelatedSkinCluster ( $item )` ) > 0 ) && ( `nodeType $listRelatives[0]` == "nurbsSurface" ) )
-		{		    		    
+		{
 
 			if(!isRadialPositionUsed($radialPositionUsed,"NW"))
 			{
 				menuItem -l (uiRes("m_dagMenuProc.kPaintSkinWeightsTool"))
 					-echoCommand true
-					-c ( "ArtPaintSkinWeightsToolOptions; changeSelectMode -object; select -add " + $item) 
+					-c ( "ArtPaintSkinWeightsToolOptions; changeSelectMode -object; select -add " + $item)
 					-rp "NW";
 				$radialPositionUsed[size($radialPositionUsed)] = "NW";
 			}
 		}
 		
-		for ($i = 0; $i < size($maskList); $i++) {			  
-			$uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;	
+		for ($i = 0; $i < size($maskList); $i++) {
+			$uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;
 			if ($maskList[$i] != "ikfkHandle") {
 				if(!isRadialPositionUsed($radialPositionUsed,$radialPosition[$i]))
 				{
@@ -934,28 +934,28 @@ global proc createSelectMenuItems(string $parent, string $item)
 						-rp $radialPosition[$i];
 				}
 			}
-		}				
+		}
 
-	} else if ($isPolyObject) {			    	    
+	} else if ($isPolyObject) {
 
-        populateMMForPaintSkinWeights($item,$radialPositionUsed);	
+        populateMMForPaintSkinWeights($item,$radialPositionUsed);
 
 		string $listRelatives[] = `listRelatives -pa -s $item`;
         
 		if ( (size($listRelatives) > 0) && ( size ( `findRelatedSkinCluster ( $item )` ) > 0 ) && ( `nodeType $listRelatives[0]` == "mesh" ) )
-		{		    		    
+		{
 
             if(!isRadialPositionUsed($radialPositionUsed,"NW"))
 		    {
 			    menuItem -l (uiRes("m_dagMenuProc.kPolyPaintSkinWeightsTool"))
 				    -echoCommand true
-				    -c ( "ArtPaintSkinWeightsToolOptions; changeSelectMode -object; select -add " + $item) 
+				    -c ( "ArtPaintSkinWeightsToolOptions; changeSelectMode -object; select -add " + $item)
 				    -rp "NW";
 				$radialPositionUsed[size($radialPositionUsed)] = "NW";
 			}
 		}
 		
-		for ($i = 0; $i < size($maskList); $i++) {				
+		for ($i = 0; $i < size($maskList); $i++) {
 			$uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;
 			if ($maskList[$i] != "ikfkHandle") {
 			    if(!isRadialPositionUsed($radialPositionUsed,$radialPosition[$i]))
@@ -967,7 +967,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 					    -rp $radialPosition[$i];
 				}
 			}
-		}				
+		}
 
 	} else if ($isLatticeObject) {
 		for ($i = 0; $i < size($maskList); $i++) {
@@ -982,7 +982,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 		}
 	} else if ($isJointObject) {
 		string $setCmd = `performSetPrefAngle 2`;
-		string $assumeCmd = `performAssumePrefAngle 2`;		
+		string $assumeCmd = `performAssumePrefAngle 2`;
 		$setCmd += (" "+$item);
 		$assumeCmd += (" "+$item);
 		string $jts[] = `ls -sl -type joint`;
@@ -991,7 +991,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 				$setCmd += (" "+$jointItem);
 				$assumeCmd += (" "+$jointItem);
 			}
-		}				
+		}
 		
 	    string  $currContext = `currentCtx`;
 	    string  $currTool    = `contextInfo -c $currContext`;
@@ -1035,13 +1035,13 @@ global proc createSelectMenuItems(string $parent, string $item)
 					$breakSymmetryCmd += "$bones[size($bones)] = \"" + $item + "\";";
 				}
 				$breakSymmetryCmd += "breakSymmetry($bones);";
-				menuItem -label $setPreferred 
+				menuItem -label $setPreferred
 					-echoCommand true
 					-c ($setCmd)
 					-rp $setPreferredQuad
 					setPrefAngleItem;
 				
-				menuItem -label $assumePreferred 
+				menuItem -label $assumePreferred
 					-echoCommand true
 					-c ($assumeCmd)
 					-rp $assumePreferredQuad
@@ -1051,32 +1051,32 @@ global proc createSelectMenuItems(string $parent, string $item)
 					menuItem
     					-label (uiRes("m_dagMenuProc.kBreakSymmetry"))
     					-command $breakSymmetryCmd
-    					-radialPosition "S"; 		
+    					-radialPosition "S";
     			}
 				menuItem
 					-label (uiRes("m_dagMenuProc.kEditJoints"))
-					-radialPosition "N" 		
+					-radialPosition "N"
 					-subMenu 1;
 
 					menuItem
     					-label (uiRes("m_dagMenuProc.kCreateJoint"))
-    					-command "JointTool" 
+    					-command "JointTool"
     					-radialPosition "N";
 					menuItem
     					-label (uiRes("m_dagMenuProc.kInsertJoint"))
-    					-command "InsertJointTool" 
+    					-command "InsertJointTool"
     					-radialPosition "W" ;
 					menuItem
     					-label (uiRes("m_dagMenuProc.kRemoveJoint"))
-    					-command "RemoveJoint" 
+    					-command "RemoveJoint"
     					-radialPosition "E";
-					setParent -menu ..;			
+					setParent -menu ..;
     				
 			}
 	    }
 	    else
 	    {
-	        populateMMForPaintSkinWeights($item,$radialPositionUsed);		    
+	        populateMMForPaintSkinWeights($item,$radialPositionUsed);
 	    }
 	    
 
@@ -1099,7 +1099,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 		                      equivalentTol($pivotOffset[2],0.0,0.001));
 			
 			// set pinning for hikEffectors
-			menuItem -label (uiRes("m_dagMenuProc.kPinBoth")) 
+			menuItem -label (uiRes("m_dagMenuProc.kPinBoth"))
 				-echoCommand true
 				-c ("doPinHikEffectors 1 {\"3\",\"" + $item + "\", \"1\" };")
 				-enable $enablePin
@@ -1115,7 +1115,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 			if ($currentPinT == 1) {
 				$pinTlabel = (uiRes("m_dagMenuProc.kPinTranslateStar"));
 			}
-			int $currentPinR = checkMultiSelectPinState($item,0);			
+			int $currentPinR = checkMultiSelectPinState($item,0);
 			string $pinRlabel = (uiRes("m_dagMenuProc.kPinRotate"));
 			if ($currentPinR == 1) {
 				$pinRlabel = (uiRes("m_dagMenuProc.kPinRotateStar"));
@@ -1135,7 +1135,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 				-rp "W"
 				pinRotItem;
 			
-			menuItem -label (uiRes("m_dagMenuProc.kUnpinBoth")) 
+			menuItem -label (uiRes("m_dagMenuProc.kUnpinBoth"))
 				-echoCommand true
 				-c ("doPinHikEffectors 1 {\"0\",\"" + $item + "\", \"1\" };")
 				-rp "S"
@@ -1147,40 +1147,40 @@ global proc createSelectMenuItems(string $parent, string $item)
 								"E","NE","SE");
 		}
 	} else if ($isLocatorObject) {
-		populateMMForPaintSkinWeights($item,$radialPositionUsed);	
+		populateMMForPaintSkinWeights($item,$radialPositionUsed);
 
 	} else if ($isIkHandleObject) {
 		string $selectikHandlesJointsAnnot = (uiRes("m_dagMenuProc.kSelectikHandlesAnnot"));
 		string $selectikHandlesAnnot = (uiRes("m_dagMenuProc.kEnableIKHandlesAnnot"));
 		menuItem -label $setPreferred
-			-annotation $selectikHandlesJointsAnnot 
+			-annotation $selectikHandlesJointsAnnot
 			-echoCommand true
 			-c (`performSetPrefAngle 2` + " " + $item)
 			-rp "W"
 			setPrefAngleItem;
 
-		menuItem -label $assumePreferred 
-			-annotation $selectikHandlesJointsAnnot 
+		menuItem -label $assumePreferred
+			-annotation $selectikHandlesJointsAnnot
 			-echoCommand true
 			-c (`performAssumePrefAngle 2` + " " + $item)
 			-rp "E"
 			assumePrefAngleItem;
 
-		menuItem -label $enableIkHandle 
-			-annotation $selectikHandlesAnnot 
+		menuItem -label $enableIkHandle
+			-annotation $selectikHandlesAnnot
 			-echoCommand true
 			-c ("ikHandle -e -eh " + $item)
 			-rp "N"
 			enableIKHandlesItem;
 
-		menuItem -label $disableikHandle 
-			-annotation $selectikHandlesAnnot 
+		menuItem -label $disableikHandle
+			-annotation $selectikHandlesAnnot
 			-echoCommand true
 			-c ("ikHandle -e -dh " + $item)
 			-rp "S"
 			disableIKHandlesItem;
 
-		menuItem -label (uiRes("m_dagMenuProc.kEnableSnap")) 
+		menuItem -label (uiRes("m_dagMenuProc.kEnableSnap"))
 			-annotation $selectikHandlesAnnot
 			-echoCommand true
 			-c ("ikHandle -e -see " + $item + ";" +
@@ -1188,8 +1188,8 @@ global proc createSelectMenuItems(string $parent, string $item)
 			-rp "SE"
 			enableIKHandlesSnapItem;
 
-		menuItem -label (uiRes("m_dagMenuProc.kDisableSnap")) 
-			-annotation $selectikHandlesAnnot 
+		menuItem -label (uiRes("m_dagMenuProc.kDisableSnap"))
+			-annotation $selectikHandlesAnnot
 			-echoCommand true
 			-c ("ikHandle -e -shf off " + $item)
 			-rp "SW"
@@ -1197,8 +1197,8 @@ global proc createSelectMenuItems(string $parent, string $item)
 
 		$maxRadialPos = 6;
 	} else if ($isParticleObject) {
-		for ($i = 0; $i < size($maskList); $i++) {			   
-			   $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;			   			
+		for ($i = 0; $i < size($maskList); $i++) {
+			   $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;
 			menuItem -label $uiName
 				-ecr false
 				-c ( "doMenuParticleComponentSelection(\"" +
@@ -1206,16 +1206,16 @@ global proc createSelectMenuItems(string $parent, string $item)
 				-rp $radialPosition[$i];
 		}
 	} else if ($isSpringObject) {
-		for ($i = 0; $i < size($maskList); $i++) {			   
-			   $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;			
+		for ($i = 0; $i < size($maskList); $i++) {
+			   $uiName = `dagMenuProc_selectionMask_melToUI $maskList[$i]`;
 			menuItem -label $uiName
 				-ecr false
 				-c ( "doMenuSpringComponentSelection(\"" +
 					$item + "\", \"" +  $maskList[$i] + "\")")
 				-rp $radialPosition[$i];
 		}
-	} else if ($isSubdivObject) {				
-	    subdDagMenuProc( 0, $item, $maskList );	    
+	} else if ($isSubdivObject) {
+	    subdDagMenuProc( 0, $item, $maskList );
 	} else if ($isMotionTrail) {
 		motionTrailDagMenuProc( $item );
 	} else {
@@ -1231,13 +1231,13 @@ global proc createSelectMenuItems(string $parent, string $item)
 					$item + "\", \"" +  $maskList[$i] + "\")")
 				-rp $radialPosition[$i];
 		}
-	} 
+	}
 
-	// If components are present, provide the ability to 
+	// If components are present, provide the ability to
 	// get back to object mode...
 	//
 	if ($hasComponents) {
-		menuItem -label (uiRes("m_dagMenuProc.kObjectMode")) 
+		menuItem -label (uiRes("m_dagMenuProc.kObjectMode"))
 				-ecr false
 				-c ("maintainActiveChangeSelectMode " + $item + ";")
 				-rp "NE";
@@ -1250,30 +1250,30 @@ global proc createSelectMenuItems(string $parent, string $item)
 		string $handle = getControlledHandle($item);
 
 		if ($maxRadialPos < 8) {
-			menuItem -label (uiRes("m_dagMenuProc.kSetIKFKKey")) 
+			menuItem -label (uiRes("m_dagMenuProc.kSetIKFKKey"))
 				-echoCommand true
-				-annotation (uiRes("m_dagMenuProc.kSetKeysAnnot")) 
+				-annotation (uiRes("m_dagMenuProc.kSetKeysAnnot"))
 				-rp $radialPosition[7]
 				-command ("select -r "+$item+"; SetIKFKKeyframe");
 		}
 
 		if ($maxRadialPos < 7) {
-			menuItem -label (uiRes("m_dagMenuProc.kMoveIKToFK")) 
+			menuItem -label (uiRes("m_dagMenuProc.kMoveIKToFK"))
 				-echoCommand true
-				-annotation (uiRes("m_dagMenuProc.kSelectAnIKHandleOrIKFKAnnot")) 
+				-annotation (uiRes("m_dagMenuProc.kSelectAnIKHandleOrIKFKAnnot"))
 				-rp $radialPosition[6]
 				-command ("select -r "+$item+"; MoveIKtoFK");
 		}
 
 		if ($maxRadialPos < 5) {
-			menuItem -label $disableikHandle 
-				-annotation (uiRes("m_dagMenuProc.kDisableIKHandleAnnot")) 
+			menuItem -label $disableikHandle
+				-annotation (uiRes("m_dagMenuProc.kDisableIKHandleAnnot"))
 				-echoCommand true
 				-c ("ikHandle -e -dh " + $handle)
 				-rp $radialPosition[5];
 
-			menuItem -label $enableIkHandle 
-				-annotation (uiRes("m_dagMenuProc.kEnableIKHandleAnnot")) 
+			menuItem -label $enableIkHandle
+				-annotation (uiRes("m_dagMenuProc.kEnableIKHandleAnnot"))
 				-echoCommand true
 				-c ("ikHandle -e -eh " + $handle)
 				-rp $radialPosition[4];
@@ -1285,7 +1285,7 @@ global proc createSelectMenuItems(string $parent, string $item)
 //       $itemName = "SELM" + string($i);
 //			setParent -menu $parent;
 //			menuItem
-//				-c ("doMenuComponentSelection(\"" + 
+//				-c ("doMenuComponentSelection(\"" +
 //					$item + "\", \"" +  $maskList[$i] + "\")")
 //				-label $maskList[$i]
 //				-rp $radialPosition[$i]
@@ -1327,14 +1327,14 @@ global proc doMenuNURBComponentSelection(string $item, string $mask)
 			$selectCmd = $selectCmd +"selectPriority -" + $mask + " 3;";
 			switch ($mask) {
 				case "surfaceUV":
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state true -uv " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -hull " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -controlVertex " + $item + ";";
-					$selectCmd = $selectCmd + 
-						"toggle -state false -editPoint " + $item + ";"; 
+					$selectCmd = $selectCmd +
+						"toggle -state false -editPoint " + $item + ";";
 
 					// Test for implicit UVs - If we are in implicit UV mode
 					// UVs are not selectable. So issue a warning.
@@ -1344,43 +1344,43 @@ global proc doMenuNURBComponentSelection(string $item, string $mask)
 					{
 						warning(`format -s $item $warn`);
 					}
-					break; 
+					break;
 				case "editPoint":
-					$selectCmd = $selectCmd + 
-						"toggle -state true -" + $mask + " " + $item +";"; 
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
+						"toggle -state true -" + $mask + " " + $item +";";
+					$selectCmd = $selectCmd +
 						"toggle -state false -hull " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -controlVertex " + $item + ";";
 					$selectCmd = $selectCmd +
 						"toggle -state false -uv " + $item + ";";
 					break;
 				case "controlVertex":
-					$selectCmd = $selectCmd + 
-						"toggle -state true -" + $mask + " " + $item +";"; 
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
+						"toggle -state true -" + $mask + " " + $item +";";
+					$selectCmd = $selectCmd +
 						"toggle -state false -hull " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -editPoint " + $item + ";";
 					$selectCmd = $selectCmd +
 						"toggle -state false -uv " + $item + ";";
 					break;
 				case "hull":
-					$selectCmd = $selectCmd + 
-						"toggle -state true -" + $mask + " " + $item + ";"; 
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
+						"toggle -state true -" + $mask + " " + $item + ";";
+					$selectCmd = $selectCmd +
 						"toggle -state false -controlVertex " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -editPoint " + $item + ";";
 					$selectCmd = $selectCmd +
 						"toggle -state false -uv " + $item + ";";
 					break;
 				default:
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -hull " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -controlVertex " + $item + ";";
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -editPoint " + $item + ";";
 					$selectCmd = $selectCmd +
 						"toggle -state false -uv " + $item + ";";
@@ -1420,7 +1420,7 @@ global proc doMenuLatticeComponentSelection(string $item, string $mask)
 		if (!`selectMode -q -preset`) {
 			$selectCmd = $selectCmd + "hilite " + $item + ";";
 		} else {
-			$selectCmd = $selectCmd + "toggle -" + $mask + ";"; 
+			$selectCmd = $selectCmd + "toggle -" + $mask + ";";
 		}
 	}
 	eval $selectCmd;
@@ -1448,11 +1448,11 @@ global proc doMenuParticleComponentSelection(string $item, string $mask)
 			$selectCmd = $selectCmd +"selectPriority -" + $mask + " 3;";
 			switch ($mask) {
 				case "particle":
-					$selectCmd = $selectCmd + 
-						"toggle -state true -" + $mask + " " + $item +";"; 
+					$selectCmd = $selectCmd +
+						"toggle -state true -" + $mask + " " + $item +";";
 					break;
 				default:
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -particle " + $item + ";";
 					break;
 			}
@@ -1486,11 +1486,11 @@ global proc doMenuSpringComponentSelection(string $item, string $mask)
 			$selectCmd = $selectCmd +"selectPriority -" + $mask + " 3;";
 			switch ($mask) {
 				case "springComponent":
-					$selectCmd = $selectCmd + 
-						"toggle -state true -" + $mask + " " + $item +";"; 
+					$selectCmd = $selectCmd +
+						"toggle -state true -" + $mask + " " + $item +";";
 					break;
 				default:
-					$selectCmd = $selectCmd + 
+					$selectCmd = $selectCmd +
 						"toggle -state false -springComponent " + $item + ";";
 					break;
 			}
@@ -1556,7 +1556,7 @@ global proc toggleBoundingBoxDisplay ( string $parent )
 			// Don't reset the overrideEnabled attribute. It
 			// is used for more than just bounding box display
 			// and turning if off will mess things up of you
-			// have temporarily enabled bounding box display 
+			// have temporarily enabled bounding box display
 			// of an object in a layer.
 			setAttr ( $shape + ".overrideLevelOfDetail" ) 0;
 		} else {
@@ -1571,7 +1571,7 @@ global proc createActionsMenuItems(string $parent, string $item)
 //
 // Creates a menu with common operations to perform on an object
 //
-{	
+{
 	popupMenu -e -dai $parent;
 	setParent -menu $parent;
 
@@ -1588,7 +1588,7 @@ global proc showSG(string $item)
 //	shading group that is on the object $item.
 //
 //  If would have been nicer to be able to use the
-//	showShadingGroupAttributeEditor command, but it only 
+//	showShadingGroupAttributeEditor command, but it only
 //  acts on the	selected object.
 //
 {
@@ -1638,7 +1638,7 @@ global proc showSG(string $item)
 	}
 
 	// If we found a shader, show it
-	if( size( $shader ) > 0) 
+	if( size( $shader ) > 0)
 	{
 		showEditor $shader;
 	}
@@ -1746,7 +1746,7 @@ global proc string objectHandlesUvSets(string $item)
 	}
 	string $nt = `nodeType $shape`;
 
-	if ($nt == "mesh")	
+	if ($nt == "mesh")
 		return $shape;
 	return "";
 }
@@ -1759,7 +1759,7 @@ global proc createUVsetMenuItems(string $parent, string $item,
 
 	string $cmd = "polyUVSet -currentUVSet -uvSet ";
 	string $curSetPI[] = `polyUVSet -q -currentPerInstanceUVSet $shape`;
-	string $curSet[] = `polyUVSet -perInstance 1 -q -currentUVSet $shape`;	
+	string $curSet[] = `polyUVSet -perInstance 1 -q -currentUVSet $shape`;
 	string $names[] = `polyUVSet -perInstance true -q -allUVSets $shape`;
 	int $numNames = size($names);
 	for ($ii = 0; $ii < $numNames; $ii++) {
@@ -1773,7 +1773,7 @@ global proc createUVsetMenuItems(string $parent, string $item,
 	string $setClearCmd = "";
 	if (size($allProjects))
 	{
-		$setClearCmd = "select -d ";		
+		$setClearCmd = "select -d ";
 		for ($p=0; $p<size($allProjects); $p++)
 			$setClearCmd += (" " + $allProjects[$p]);
 		$setClearCmd += ";";
@@ -1781,14 +1781,14 @@ global proc createUVsetMenuItems(string $parent, string $item,
 
 	// Add in a menu to do uv-linking
 	if ($numNames > 0)
-	{	
+	{
 		string $ann = `getRunTimeCommandAnnotation "UVCentricUVLinkingEditor"`;
 		string $cmd = "UVCentricUVLinkingEditor; " + "select -r " + $item;
-		menuItem -label (uiRes("m_dagMenuProc.kUVLinking")) 
+		menuItem -label (uiRes("m_dagMenuProc.kUVLinking"))
 			-c $cmd
 			-annotation $ann;
 
-		menuItem -label (uiRes("m_dagMenuProc.kUVSetEditor")) 
+		menuItem -label (uiRes("m_dagMenuProc.kUVSetEditor"))
 			-c "UVSetEditor"
 			-ann (getRunTimeCommandAnnotation("UVSetEditor"))
 			;
@@ -1815,7 +1815,7 @@ global proc createUVsetMenuItems(string $parent, string $item,
 			menuItem -label ($uvname) -c $setClearCmd -checkBox true;
 			for ($j=0; $j<size($projs); $j++)
 			{
-				$projCmd = ($setClearCmd + "select -add "+ $projs[$j] + ";setToolTo ShowManips;"); 
+				$projCmd = ($setClearCmd + "select -add "+ $projs[$j] + ";setToolTo ShowManips;");
 				menuItem -label $projs[$j] -c $projCmd;
 				if ($j >= 5)
 					break;
@@ -1826,7 +1826,7 @@ global proc createUVsetMenuItems(string $parent, string $item,
 			menuItem -label ($uvname) -c ($setClearCmd + $setCurCmd) -checkBox false;
 			for ($j=0; $j<size($projs); $j++)
 			{
-				$projCmd = ($setCurCmd + $setClearCmd + "select -add "+ $projs[$j] + ";setToolTo ShowManips;"); 
+				$projCmd = ($setCurCmd + $setClearCmd + "select -add "+ $projs[$j] + ";setToolTo ShowManips;");
 				menuItem -label $projs[$j] -c $projCmd;
 				if ($j >= 5)
 					break;
@@ -1868,7 +1868,7 @@ global proc string objectHandlesColorSets(string $item)
 	}
 	string $nt = `nodeType $shape`;
 
-	if ($nt == "mesh")	
+	if ($nt == "mesh")
 		return $shape;
 
 	return "";
@@ -1882,7 +1882,7 @@ global proc createColorSetMenuItems(string $parent, string $item,
 
 	string $cmd = "polyColorSet -currentColorSet -colorSet ";
 	string $curSet[] = `polyColorSet -q -currentColorSet $shape`;
-	string $curSetPI[] = `polyColorSet -perInstance true -q -currentPerInstanceSet $shape`;	
+	string $curSetPI[] = `polyColorSet -perInstance true -q -currentPerInstanceSet $shape`;
 	string $names[] = `polyColorSet -perInstance true -q -acs $shape`;
 	string $rep[] = `polyColorSet -q -acs -representation $shape`;
 
@@ -1895,12 +1895,12 @@ global proc createColorSetMenuItems(string $parent, string $item,
 	}
 
 	// Add in a menu to access color set editor
-	menuItem -label (uiRes("m_dagMenuProc.kColorSetEditor")) 
+	menuItem -label (uiRes("m_dagMenuProc.kColorSetEditor"))
 		-ann (getRunTimeCommandAnnotation("ColorSetEditor"))
 		-command "colorSetEditor"
 		;
 	if ($numNames > 0)
-	{	
+	{
 	menuItem -divider true;
 	}
 
@@ -1937,16 +1937,16 @@ global proc createColorSetMenuItems(string $parent, string $item,
 }
 
 global proc createArtAttrMenuItems(
-	string 		$parent, 
+	string 		$parent,
 	string 		$item
 )
 //
 //	Description:
 // 		Creates a menu that shows all the paintable attributes.
-// 
+//
 //	NOTE: paintAttr are sorted by the paintable node type.
-// 
-{	
+//
+{
 	popupMenu -e -dai $parent;
 	setParent -menu $parent;
 	
@@ -1980,13 +1980,13 @@ global proc createArtAttrMenuItems(
 //
 //	Description:
 // 		Creates RMB menu for the ViewCube
-// 
+//
 global proc createViewCubeMenuItems(
 	string 		$parent
 )
 {
 	popupMenu -e -dai $parent;
-	setParent -menu $parent;	
+	setParent -menu $parent;
 	
 	// (Menu item) Set view to home view
 	menuItem -p $parent -label (uiRes("m_dagMenuProc.kViewCubeHome"))
@@ -2012,7 +2012,7 @@ global proc createViewCubeMenuItems(
 
 	menuItem -divider true;
 	
-	// (Menu item) Sets current view as the (scene) Home view 
+	// (Menu item) Sets current view as the (scene) Home view
 	menuItem -p $parent -label (uiRes("m_dagMenuProc.kViewCubeSetHome"))
 		-command "viewManip -setHome";
 	
@@ -2021,7 +2021,7 @@ global proc createViewCubeMenuItems(
 		-enable `viewManip -q -setHome`
 		-command "viewManip -resetHome";
 	
-	// (Menu item) Sets current view as the (scene) Front view 
+	// (Menu item) Sets current view as the (scene) Front view
 	menuItem -p $parent -label (uiRes("m_dagMenuProc.kViewCubeSetFront"))
 		-command "viewManip -setFront";
 	
@@ -2033,7 +2033,7 @@ global proc createViewCubeMenuItems(
 	menuItem -divider true;
 	
 	// (Menu item) Opens preferences window to the ViewCube properties tab
-	menuItem -p $parent -label (uiRes("m_dagMenuProc.kViewCubeProperties")) 
+	menuItem -p $parent -label (uiRes("m_dagMenuProc.kViewCubeProperties"))
 		 -command "preferencesWnd \"viewCube\";";
 
 	menuItem -divider true;
@@ -2124,14 +2124,14 @@ proc setUpArtisanSkinContext(string $parent, string $object)
 	
 	string $activePanel = `getPanel -wf`;
 	int $currentXrayValue = `modelEditor -q -jointXray $activePanel`;
-	$xrayJointCB = `menuItem -subMenu false -cb $currentXrayValue  -c "skinPaintXrayJoints;" -label (uiRes("m_dagMenuProc.kDagMenuXRayJoints")) xrayJointsCB`;  
+	$xrayJointCB = `menuItem -subMenu false -cb $currentXrayValue  -c "skinPaintXrayJoints;" -label (uiRes("m_dagMenuProc.kDagMenuXRayJoints")) xrayJointsCB`;
 	setParent -m $parent;
 	
 	int $currentIsolateValue = `isolateSelect -q -state $activePanel`;
 	$isolateParent = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kDagMenuIsolate"))`;
 	menuItem -subMenu false -cb $currentIsolateValue  -c "getActiveModelPanel;" -label (uiRes("m_dagMenuProc.kDagMenuIsolateSelected")) $isolateParent;
-	menuItem -subMenu false -label (uiRes("m_dagMenuProc.kDagMenuAddObject")) -c "addSelectedToIsolation;" $isolateParent;										
-	setParent -m $parent;										
+	menuItem -subMenu false -label (uiRes("m_dagMenuProc.kDagMenuAddObject")) -c "addSelectedToIsolation;" $isolateParent;
+	setParent -m $parent;
 	
 	menuItem -divider true;
 	menuItem -divider true;
@@ -2153,7 +2153,7 @@ proc setUpArtisanSkinContext(string $parent, string $object)
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushProfileSoft")) $brushParent;
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushProfileGaussian")) $brushParent;
 	
-	setParent -m $parent;																			
+	setParent -m $parent;
 	
 	$valueParent = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kDagMenuBrushValue")) $parent`;
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue0")) -c "artSkinSetSelectionValue 0.000 false artAttrSkinPaintCtx artAttrSkin;" $valueParent;
@@ -2166,9 +2166,9 @@ proc setUpArtisanSkinContext(string $parent, string $object)
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue7")) -c "artSkinSetSelectionValue 0.700 false artAttrSkinPaintCtx artAttrSkin;"  $valueParent;
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue8")) -c "artSkinSetSelectionValue 0.800 false artAttrSkinPaintCtx artAttrSkin;"  $valueParent;
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue9")) -c "artSkinSetSelectionValue 0.900 false artAttrSkinPaintCtx artAttrSkin;"  $valueParent;
-	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue10")) -c "artSkinSetSelectionValue 1.000 false artAttrSkinPaintCtx artAttrSkin;"  $valueParent;		
+	menuItem -label (uiRes("m_dagMenuProc.kDagMenuBrushValue10")) -c "artSkinSetSelectionValue 1.000 false artAttrSkinPaintCtx artAttrSkin;"  $valueParent;
 	
-	setParent -m $parent;																					
+	setParent -m $parent;
 	
 	$opacityParent = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kDagMenuOpacity")) $parent`;
 	menuItem -label (uiRes("m_dagMenuProc.kDagMenuOpacityValue0")) -c "artAttrSkinPaintCtx -e -opacity 0.000 `currentCtx`" $opacityParent;
@@ -2203,7 +2203,7 @@ proc setUpArtisanSkinContext(string $parent, string $object)
 	menuItem -divider true;
 	
 	string $menu = `menuItem -subMenu true -aob true -label (uiRes("m_dagMenuProc.kDagMenuInputs")) `;
-	menu -e 
+	menu -e
 		-pmc ( "createHistoryMenuItems \""+$menu+"\" "+$object ) $menu;
 	setParent -m $parent;
 	
@@ -2219,7 +2219,7 @@ global proc createSceneAssemblyMenuItems(string $parent)
 //
 // Creates a menu with common operations to perform on an object
 //
-{	
+{
 	popupMenu -e -dai $parent;
 	setParent -menu $parent;
 
@@ -2249,7 +2249,7 @@ global proc dagMenuProc(string $parent, string $object)
 	if (`popupMenu -e -exists $parent`) {
 		setParent -m $parent;
 		
-		string  $currContext = `currentCtx`;		
+		string  $currContext = `currentCtx`;
 		if ( $currContext == "artAttrSkinContext" )
 		{
 			setUpArtisanSkinContext($parent, $object);
@@ -2313,14 +2313,14 @@ global proc dagMenuProc(string $parent, string $object)
 		    // Create the dg traversal menu
 		    //
 		    string $menu = `menuItem -subMenu true -aob true -label (uiRes("m_dagMenuProc.kDGTraversal")) `;
-		    menu -e 
+		    menu -e
 			    -pmc ( "createTraversalMenuItems \""+$menu+"\" "+$object ) $menu;
 		    setParent -m $parent;
 
 		    // create the history menu
 		    //
 		    string $menu = `menuItem -subMenu true -aob true -label (uiRes("m_dagMenuProc.kInputs")) `;
-		    menu -e 
+		    menu -e
 			    -pmc ( "createHistoryMenuItems \""+$menu+"\" "+$object ) $menu;
 		    setParent -m $parent;
 
@@ -2339,20 +2339,20 @@ global proc dagMenuProc(string $parent, string $object)
 		    int $selIndex  ;
 
  		    int $i;
- 		    for ($i = 0; $i < size($shapes); ++$i) 
+ 		    for ($i = 0; $i < size($shapes); ++$i)
 		    {
 			    string $nodeType = `nodeType $shapes[$i]` ;
 
 			    if ( ( $nodeType == "nurbsSurface") ||
 				     ( $nodeType == "mesh") ||
-				     ( $nodeType == "subdiv")) 
+				     ( $nodeType == "subdiv"))
 			    {
 				    // save the object name if it is not already selected by the user
 				    // We use this info to select the object if user chooses a paint option
 				    //
 				    // If user has selected multiple objects and is using context menu on one of them
-				    // we do not change the selection list as user may want to paint some attribute 
-				    // on all of them. (It is the way it has been working all along...we don't want to 
+				    // we do not change the selection list as user may want to paint some attribute
+				    // on all of them. (It is the way it has been working all along...we don't want to
 				    // break it )
     				
 				    int $found = 0 ;
@@ -2386,7 +2386,7 @@ global proc dagMenuProc(string $parent, string $object)
 						    }
 					    }
 
-					    if( !$found ) 
+					    if( !$found )
 						    $artSelectObject = $object ;
 					    else
 						    $artSelectObject = "" ;
@@ -2410,7 +2410,7 @@ global proc dagMenuProc(string $parent, string $object)
 		    if ($shape != "")
 		    {
 			    $menu = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kUVSets")) `;
-			    menu -e 
+			    menu -e
 				    -pmc ( "createUVsetMenuItems \""+$menu+"\" " +$object + " "+ $shape )
 				    $menu;
 			    setParent -m $parent;
@@ -2420,18 +2420,18 @@ global proc dagMenuProc(string $parent, string $object)
 		    if ($shape != "")
 		    {
 			    $menu = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kColorSets")) `;
-			    menu -e 
+			    menu -e
 				    -pmc ( "createColorSetMenuItems \""+$menu+"\" " +$object + " "+ $shape )
 				    $menu;
 			    setParent -m $parent;
 		    }
 
-			if(size(`assembly -q -listTypes`) > 0){		
+			if(size(`assembly -q -listTypes`) > 0){
 			    menuItem -d true;
                 $menu = `menuItem -subMenu true -label (uiRes("m_dagMenuProc.kSceneAssemblyMenuProc")) `;
                 menu -e -pmc ( "createSceneAssemblyMenuItems \""+$menu+"\"" ) $menu;
-			    setParent -m $parent;  
-			}          
+			    setParent -m $parent;
+			}
 		    // Shader menu to be able to quickly assign existing shaders
 		    // to the object under the pointer.
 		    //
@@ -2447,7 +2447,7 @@ global proc dagMenuProc(string $parent, string $object)
 
             menuItem -divider true;
 
-            string $removeOverrideMenuItem = `menuItem 
+            string $removeOverrideMenuItem = `menuItem
 			    -label (uiRes("m_dagMenuProc.kRemoveMaterialOverride"))
                 -subMenu true`;
             menuItem -edit -postMenuCommand
@@ -2460,7 +2460,7 @@ global proc dagMenuProc(string $parent, string $object)
 				//
 				callbacks -executeCallbacks -hook "addRMBBakingMenuItems" $object;
 				setParent -m $parent;
-			} 
+			}
 
 		    if ($mode == "dynamicsMenuSet") {
 			    menuItem -d true;
@@ -2473,7 +2473,7 @@ global proc dagMenuProc(string $parent, string $object)
 		    // and if so, is it in a loaded or unloaded state?
 		    string $refNode = `getRelatedReference $object`;
 			
-			if( size($refNode) > 0) 
+			if( size($refNode) > 0)
 			{
 				// Check if this reference node is associated with multiple representation.
 				string $refObjects[] = `listConnections -s 0 -d 1 -type representation ($refNode+".message")`;
@@ -2497,7 +2497,7 @@ global proc dagMenuProc(string $parent, string $object)
 						setParent -m $parent;
 					}
 				}
-			}            
+			}
           
 		    string $container = `container -q -findContainer { $object }`;
     		
