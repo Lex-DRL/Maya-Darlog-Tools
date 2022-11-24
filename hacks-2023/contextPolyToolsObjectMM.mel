@@ -145,7 +145,7 @@ global proc contextPolyToolsObjectMM(){
 				;
 			menuItem
 				-label ("Unlock (keep Soft/Hard)")
-				-command "import lockNormals_toHS; lockNormals_toHS.run()" 
+				-command "from darlog_maya import unlock_normals; unlock_normals.run()" 
 				-radialPosition "W"
 				-sourceType "python"
 				-bld 1
