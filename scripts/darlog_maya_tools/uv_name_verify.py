@@ -5,7 +5,6 @@ Ensure that UV-set with a given index has a specific name.
 
 __author__ = 'Lex Darlog (DRL)'
 
-from contextlib import contextmanager
 from pprint import pformat
 import re
 
@@ -14,6 +13,7 @@ from pymel.core import nodetypes as _nt
 
 from darlog_maya.py23 import *
 from darlog_maya.typing_poly import *
+from darlog_maya.undo import undoable_context as _undoable_context
 
 try:
 	import typing as _t
@@ -30,20 +30,6 @@ _re_valid_uv_set_name = re.compile('[_a-zA-Z][a-zA-Z_0-9]+$')
 
 
 # TODO: extract to a lib
-
-
-@contextmanager
-def __maya_undoable(
-	chunk_name=None  # type: _t.AnyStr
-):
-	try:
-		if isinstance(chunk_name, _t_str) and chunk_name:
-			_pm.undoInfo(chunkName=chunk_name, openChunk=True)
-		else:
-			_pm.undoInfo(openChunk=True)
-		yield
-	finally:
-		_pm.undoInfo(closeChunk=True)
 
 
 def __comp_to_mesh(component):  # type: (_h_poly_comp) -> _nt.Mesh
@@ -331,7 +317,7 @@ def rename_on_objects_or_components(
 
 	res = [__mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
 
-	with __maya_undoable("uvSetsRenameChunk"):
+	with _undoable_context("uvSetsRenameChunk"):
 		for mesh in meshes_for_rename:
 			_rename_uv_set_in_mesh(mesh, index, name)
 		_pm.select(res, r=1)
