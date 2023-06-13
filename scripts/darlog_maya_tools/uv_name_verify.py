@@ -12,10 +12,7 @@ import re
 from pymel import core as pm
 from pymel.core import nodetypes as nt
 
-try:
-	from itertools import izip as _zip
-except ImportError:
-	_zip = zip
+from darlog_maya.py23 import *
 
 try:
 	import typing as _t
@@ -25,13 +22,6 @@ try:
 	_h_valid_selection_str = _t.Union[_h_valid_selection, _t.AnyStr]
 except ImportError:
 	pass
-
-try:
-	_unicode = unicode
-	_t_str = (unicode, str)
-except Exception:
-	_unicode = str
-	_t_str = str
 
 _t_poly_comp = (
 	pm.MeshVertex,
