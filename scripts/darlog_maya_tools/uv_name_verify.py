@@ -14,6 +14,7 @@ from pymel.core import nodetypes as _nt
 from darlog_maya.py23 import *
 from darlog_maya.typing_poly import *
 from darlog_maya.undo import undoable_context as _undoable_context
+from darlog_maya.user_interaction import print
 
 try:
 	import typing as _t
