@@ -194,8 +194,8 @@ def _rename_uv_set_in_mesh(mesh, index, new_name):  # type: (nt.Mesh, int, str) 
 	try:
 		pm.polyUVSet(mesh, rename=True, uvSet=old_name, newUVSet=new_name)
 	except Exception:
-		print("Internal error: unable to perform <{}> UV-set rename {} > {} on:\n{}".format(
-			index, repr(old_name), repr(new_name), repr(mesh)
+		print("{}:\tInternal error: unable to perform <{}> UV-set rename {} > {}".format(
+			repr(mesh), index, repr(old_name), repr(new_name)
 		))
 		raise
 
@@ -312,11 +312,10 @@ def verify_on_objects_or_components(
 
 	if do_print:
 		print(
-			"UV-set <{}> on the following {} isn't named {}:\n{}".format(
+			"UV-set <{}> on {} isn't named {}".format(
 				index,
-				"object" if len(res) == 1 else "objects",
-				repr(name),
-				'\n'.join("\t{}".format(x) for x in res)
+				repr(res[0]) if len(res) == 1 else "{} selected objects".format(len(res)),
+				repr(name)
 			)
 		)
 	return res
@@ -357,11 +356,10 @@ def rename_on_objects_or_components(
 
 	if do_print:
 		print(
-			"UV-set <{}> on the following {} was renamed to {}:\n{}".format(
+			"UV-set <{}> on {} was renamed to {}".format(
 				index,
-				"object" if len(res) == 1 else "objects",
-				repr(name),
-				'\n'.join("\t{}".format(x) for x in res)
+				repr(res[0]) if len(res) == 1 else "{} selected objects".format(len(res)),
+				repr(name)
 			)
 		)
 	return res
