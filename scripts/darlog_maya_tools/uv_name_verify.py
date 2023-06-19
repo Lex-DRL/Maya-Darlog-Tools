@@ -104,8 +104,7 @@ def _list_meshes_for_uv_rename(
 
 	if meshes_with_wrong_uv_sets:
 		bad_meshes = (mesh for mesh, uv_sets in meshes_with_wrong_uv_sets)
-		msg = "The following {} have a UV-set with index of {}:\n{}".format(
-			"shape doesn't" if len(meshes_with_wrong_uv_sets) == 1 else "shapes don't",
+		msg = "No UV-set with index of {} on:\n{}".format(
 			index,
 			'\n'.join(
 				"\t{}\t>\t{}".format(repr(mesh), uv_sets) for mesh, uv_sets in meshes_with_wrong_uv_sets
@@ -120,7 +119,7 @@ def _list_meshes_for_uv_rename(
 			"shape already has" if len(meshes_with_name_clashes) == 1 else "shapes already have",
 			repr(name),
 			'\n'.join(
-				"\t{}\t>\t{}".format(repr(mesh), uv_sets) for mesh, uv_sets in meshes_with_name_clashes
+				"\t{}\t>\t{}".format(mesh, repr(uv_sets)) for mesh, uv_sets in meshes_with_name_clashes
 			)
 		)
 		raise InvalidUVSet(bad_meshes, msg)

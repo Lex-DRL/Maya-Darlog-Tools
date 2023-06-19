@@ -22,11 +22,13 @@ _TShape = _t.TypeVar('TShape', bound=_nt.Shape)
 _h_geo_object = _t.Union[_nt.Transform, _TShape]
 _h_geo_selection_input = _t.Union[_h_geo_object, _pm.Component, _t.AnyStr, None]
 _h_geo_selection_input_seq = _t.Union[_h_geo_selection_input, _t.Sequence[_h_geo_selection_input]]
+_h_geo_grouped_output = _t.Dict[_TShape, _t.List[_t.Union[_TShape, _pm.Component]]]
 
 _h_poly_object = _t.Union[_nt.Transform, _nt.Mesh]
 _h_poly_comp = _t.Union[_pm.MeshVertex, _pm.MeshFace, _pm.MeshVertexFace, _pm.MeshEdge, _pm.MeshUV]
 _h_poly_selection_input = _t.Union[_h_poly_object, _h_poly_comp, _t.AnyStr, None]
 _h_poly_selection_input_seq = _t.Union[_h_poly_selection_input, _t.Sequence[_h_poly_selection_input]]
+_h_poly_grouped_output = _t.Dict[_nt.Mesh, _t.List[_t.Union[_nt.Mesh, _h_poly_comp]]]
 
 _h_shape_type_arg = _t.Union[_t.Type[_TShape], _t.Tuple[_t.Type[_TShape], ...]]
 _h_comp_type_arg = _t.Union[_t.Type[_pm.Component], _t.Tuple[_t.Type[_pm.Component], ...]]
@@ -83,6 +85,40 @@ class _FromToShape(ABC):
 			) if isinstance(x, shape_type)
 		)
 
+	def __to_shape_with_item_gen(
+		self, items: _h_geo_selection_input_seq, all_transform_descendents=True
+	) -> _t.Generator[_t.Tuple[_t.Optional[_TShape], _t.Any], _t.Any, None]:
+		"""
+		Low-level function converting from a valid selection to it's shapes.
+
+		``shape_type`` must be a subclass or tuple of subclasses of ``nt.Shape``.
+
+		``comp_type`` must similarly contain all the component types for the given ``shape_type``.
+
+		The yielded result is a shape and it's originally passed item.
+		All the invalid item values have ``None`` instead of their shape.
+		"""
+		shape_type = self._shape_type()
+		comp_type = self._comp_type()
+
+		for item in cleanup_input(items):
+			if isinstance(item, shape_type):
+				# print("Shape: {}".format(repr(item)))
+				yield item, item
+				continue
+			if isinstance(item, comp_type):
+				# print("Shape component: {}".format(repr(item)))
+				yield item.node(), item
+				continue
+			if isinstance(item, _nt.Transform):
+				# print("Transform: {}".format(repr(item)))
+				for child_shape in self._transforms_to_child_shapes_gen(item, all_descendents=all_transform_descendents):
+					yield child_shape, child_shape
+				continue
+
+			# print("Unsupported selection type: {}".format(repr(item)))
+			yield None, item  # invalid input
+
 	def __to_shape_gen_with_possible_duplicates(
 		self, items: _h_geo_selection_input_seq, all_transform_descendents=True
 	) -> _t.Generator[_t.Tuple[bool, _t.Any], _t.Any, None]:
@@ -95,26 +131,10 @@ class _FromToShape(ABC):
 
 		First element of yielded result is whether the given item is an error input.
 		"""
-		shape_type = self._shape_type()
-		comp_type = self._comp_type()
-
-		for item in cleanup_input(items):
-			if isinstance(item, shape_type):
-				# print("Shape: {}".format(repr(item)))
-				yield False, item
-				continue
-			if isinstance(item, comp_type):
-				# print("Shape component: {}".format(repr(item)))
-				yield False, item.node()
-				continue
-			if isinstance(item, _nt.Transform):
-				# print("Transform: {}".format(repr(item)))
-				for child_mesh in self._transforms_to_child_shapes_gen(item, all_descendents=all_transform_descendents):
-					yield False, child_mesh
-				continue
-
-			# print("Unsupported selection type: {}".format(repr(item)))
-			yield True, item  # invalid input
+		for shape, item in self.__to_shape_with_item_gen(items, all_transform_descendents=all_transform_descendents):
+			if shape is None:
+				yield True, item
+			yield False, shape
 
 	def _to_shapes(
 		self, items: _h_geo_selection_input_seq, all_transform_descendents=True
@@ -137,6 +157,26 @@ class _FromToShape(ABC):
 		shape_type = self._shape_type()
 		assert all(isinstance(x, shape_type) for x in shapes)
 		return list(shapes), list(error_input)
+
+	def _group_by_shape(
+		self, items: _h_geo_selection_input_seq, all_transform_descendents=True
+	):
+		res = dict()  # type: _h_geo_grouped_output
+		error_input = list()  # for error input
+
+		for shape, item in self.__to_shape_with_item_gen(items, all_transform_descendents=all_transform_descendents):
+			if shape is None:
+				error_input.append(item)
+				continue
+
+			if shape not in res:
+				res[shape] = list()
+			res[shape].append(item)
+
+		shape_type = self._shape_type()
+		assert all(isinstance(x, shape_type) for x in res.keys())
+
+		return res, error_input
 
 	def _shape_to_transform_if_only_one(self, shape: _TShape) -> _h_geo_object:
 		"""
@@ -183,8 +223,16 @@ class FromToMesh(_FromToShape):
 
 	def to_meshes(
 		self, items: _h_poly_selection_input_seq, all_transform_descendents=True
-	) -> _t.Tuple[_t.List[_nt.Mesh], _t.List[_t.Any]]:
+	) -> _t.Tuple[_t.List[_nt.Mesh], list]:
 		return self._to_shapes(items, all_transform_descendents=all_transform_descendents)
+
+	def group_by_mesh(
+		self, items: _h_poly_selection_input_seq, all_transform_descendents=True
+	) -> _t.Tuple[_h_poly_grouped_output, list]:
+		res_with_errors: _t.Tuple[_h_poly_grouped_output, list] = self._group_by_shape(
+			items, all_transform_descendents=all_transform_descendents
+		)  # suppress PyCharm's omplaints on mismatching type
+		return res_with_errors
 
 	def mesh_to_transform_if_only_one(self, mesh: _nt.Mesh) -> _h_poly_object:
 		"""

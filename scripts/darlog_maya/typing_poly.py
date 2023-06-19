@@ -21,3 +21,13 @@ _t_poly_comp = (
 	__pm.MeshEdge,
 	__pm.MeshUV,
 )
+_t_poly_object_or_comp = (
+	__nt.Transform,
+	__nt.Mesh,
+
+	__pm.MeshVertex,
+	__pm.MeshFace,
+	__pm.MeshVertexFace,
+	__pm.MeshEdge,
+	__pm.MeshUV,
+)
