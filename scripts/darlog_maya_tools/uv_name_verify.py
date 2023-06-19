@@ -6,7 +6,6 @@ Ensure that UV-set with a given index has a specific name.
 __author__ = 'Lex Darlog (DRL)'
 
 from pprint import pformat as _pformat
-import re as _re
 
 from pymel import core as _pm
 from pymel.core import nodetypes as _nt
@@ -21,40 +20,18 @@ from darlog_maya.ls_convert import (
 from darlog_maya.py23 import *
 from darlog_maya.undo import undoable_context as _undoable_context
 from darlog_maya.user_interaction import print
+from darlog_maya.uv_set import InvalidUVSet, mesh_uv_sets, is_valid_name, rename_uv_set_in_meshes
 
 try:
 	import typing as _t
 except ImportError:
 	pass
 
-_re_valid_uv_set_name = _re.compile('[_a-zA-Z][a-zA-Z_0-9]+$')
-
 _converter = FromToMesh(no_intermediate_shapes=True)
 
 
-class InvalidUVSet(RuntimeError):
-	"""Thrown to indicate meshes which have some issue with their UV-set which prevents them from being renamed."""
-	def __init__(
-		self,
-		meshes,  # type: _t.Iterable[_nt.Mesh]
-		*args, **kwargs
-	):
-		super(InvalidUVSet, self).__init__(*args, **kwargs)
-
-		# noinspection PyBroadException
-		try:
-			meshes = list(meshes)
-		except Exception:
-			meshes = list()
-		self.meshes = meshes  # type: _t.List[_nt.Mesh]
-
-
-def _mesh_uv_sets(mesh: _nt.Mesh) -> _t.List[str]:
-	return mesh.getUVSetNames()
-
-
 def _rename_uv_set_in_mesh(mesh: _nt.Mesh, index: int, new_name: str):
-	current_uv_sets = _mesh_uv_sets(mesh)
+	current_uv_sets = mesh_uv_sets(mesh)
 	old_name = current_uv_sets[index]
 	if old_name == new_name:
 		return
@@ -84,7 +61,7 @@ def _list_meshes_for_uv_rename(
 
 	if not isinstance(name, _t_str):
 		raise TypeError("UV-set name must be a string. Got: {}".format(repr(name)))
-	if not _re_valid_uv_set_name.match(name):
+	if not is_valid_name(name):
 		raise ValueError("Invalid UV-set name: {}".format(repr(name)))
 
 	items_list = cleanup_input(items)
@@ -106,7 +83,7 @@ def _list_meshes_for_uv_rename(
 	meshes_with_name_clashes = list()  # type: _t.List[_t.Tuple[_nt.Mesh, _t.List[str]]]
 	meshes_with_wrong_uv_sets = list(meshes_with_name_clashes)
 	for mesh in meshes:
-		uv_sets = _mesh_uv_sets(mesh)
+		uv_sets = mesh_uv_sets(mesh)
 		try:
 			current_set = uv_sets[index]
 		except IndexError:
@@ -213,8 +190,7 @@ def rename_on_objects_or_components(
 	res = [_converter.mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
 
 	with _undoable_context("uvSetsRenameChunk"):
-		for mesh in meshes_for_rename:
-			_rename_uv_set_in_mesh(mesh, index, name)
+		rename_uv_set_in_meshes(meshes_for_rename, index, name)
 		_pm.select(res, r=1)
 
 	if do_print:
