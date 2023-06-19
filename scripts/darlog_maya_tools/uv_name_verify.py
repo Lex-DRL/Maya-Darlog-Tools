@@ -5,131 +5,31 @@ Ensure that UV-set with a given index has a specific name.
 
 __author__ = 'Lex Darlog (DRL)'
 
-from pprint import pformat
-import re
+from pprint import pformat as _pformat
+import re as _re
 
 from pymel import core as _pm
 from pymel.core import nodetypes as _nt
 
+from darlog_maya.ls_convert import (
+	cleanup_input,
+	FromToMesh,
+
+	_h_poly_object,
+	_h_poly_selection_input_seq,
+)
 from darlog_maya.py23 import *
-from darlog_maya.typing_poly import *
 from darlog_maya.undo import undoable_context as _undoable_context
 from darlog_maya.user_interaction import print
 
 try:
 	import typing as _t
-	_h_poly_object = _t.Union[_nt.Transform, _nt.Mesh]
-	_h_poly_comp = _t.Union[_pm.MeshVertex, _pm.MeshFace, _pm.MeshVertexFace, _pm.MeshEdge, _pm.MeshUV]
-	_h_poly_selection_str_none = _t.Union[_h_poly_object, _h_poly_comp, _t.AnyStr, None]
 except ImportError:
 	pass
 
-_re_valid_uv_set_name = re.compile('[_a-zA-Z][a-zA-Z_0-9]+$')
+_re_valid_uv_set_name = _re.compile('[_a-zA-Z][a-zA-Z_0-9]+$')
 
-
-# region Included common utility functions
-
-
-# TODO: extract to a lib
-
-
-def __comp_to_mesh(component):  # type: (_h_poly_comp) -> _nt.Mesh
-	assert isinstance(component, _t_poly_comp)
-	return component.node()
-
-
-def __transform_to_child_meshes_gen(
-	transform, all_descendents=False, no_intermediate_shapes=True
-):  # type: (_nt.Transform, bool, bool) -> _t.Generator[_nt.Mesh, _t.Any, None]
-	return (
-		x for x in _pm.listRelatives(transform, shapes=1, allDescendents=all_descendents, noIntermediate=no_intermediate_shapes)
-		if isinstance(x, _nt.Mesh)
-	)
-
-
-def __to_meshes_gen_with_duplicates(
-	items, all_transform_descendents=True
-):  # type: (_t.Iterable[_h_poly_selection_str_none], bool) -> _t.Generator[_t.Tuple[bool, _t.Any], _t.Any, None]
-	if items is None:
-		return
-
-	if isinstance(items, _t_str):
-		items = [items, ]
-
-	try:
-		iter_items = list(items)
-	except TypeError:
-		iter_items = [items, ]
-
-	for item in _pm.ls(iter_items):
-		if item is None:
-			# print("None: {}".format(repr(item)))
-			continue
-		if isinstance(item, _nt.Mesh):
-			# print("Mesh: {}".format(repr(item)))
-			yield False, item
-			continue
-		if isinstance(item, _t_poly_comp):
-			# print("Mesh component: {}".format(repr(item)))
-			yield False, item.node()
-			continue
-		if isinstance(item, _nt.Transform):
-			# print("Transform: {}".format(repr(item)))
-			for child_mesh in __transform_to_child_meshes_gen(item, all_descendents=all_transform_descendents):
-				yield False, child_mesh
-			continue
-
-		# print("Unsupported selection type: {}".format(repr(item)))
-		yield True, item  # invalid input
-
-
-def __to_meshes(
-	items, all_transform_descendents=True
-):  # type: (_t.Iterable[_h_poly_selection_str_none], bool) -> _t.Tuple[_t.List[_nt.Mesh], _t.List[_t.Any]]
-	seen = set()  # type: _t.Set[_nt.Mesh]
-	meshes = list()  # type: _t.List[_nt.Mesh]
-	error_input = list()  # type: _t.List[_t.Any]
-	for is_error, mesh in __to_meshes_gen_with_duplicates(items, all_transform_descendents=all_transform_descendents):
-		if is_error:
-			error_input.append(mesh)
-			continue
-		if mesh in seen:
-			continue
-
-		assert isinstance(mesh, _nt.Mesh)
-		meshes.append(mesh)
-		seen.add(mesh)
-
-	assert all(isinstance(x, _nt.Mesh) for x in meshes)
-	return list(meshes), list(error_input)
-
-
-def __mesh_to_transform_if_only_one(mesh):  # type: (_nt.Mesh) -> _h_poly_object
-	"""
-	Convert mesh to it's transform if the given mesh is the only child
-	(ignoring intermediate shapes, but including any other child transforms).
-	"""
-	assert isinstance(mesh, _nt.Mesh)
-	transform = mesh.getTransform()  # type: _nt.Transform
-	if any(
-		True for x in
-		_pm.listRelatives(transform, children=1, allDescendents=False)
-		if isinstance(x, _nt.Transform)
-	):
-		# There are other child transforms
-		return mesh
-
-	transform_meshes = list(__transform_to_child_meshes_gen(transform, all_descendents=False))
-	if not(
-		len(transform_meshes) == 1 and transform_meshes[0] == mesh
-	):
-		# We aren't the only shape here
-		return mesh
-
-	return transform
-
-
-# endregion
+_converter = FromToMesh(no_intermediate_shapes=True)
 
 
 class InvalidUVSet(RuntimeError):
@@ -149,11 +49,11 @@ class InvalidUVSet(RuntimeError):
 		self.meshes = meshes  # type: _t.List[_nt.Mesh]
 
 
-def _mesh_uv_sets(mesh):  # type: (_nt.Mesh) -> _t.List[str]
+def _mesh_uv_sets(mesh: _nt.Mesh) -> _t.List[str]:
 	return mesh.getUVSetNames()
 
 
-def _rename_uv_set_in_mesh(mesh, index, new_name):  # type: (_nt.Mesh, int, str) -> ...
+def _rename_uv_set_in_mesh(mesh: _nt.Mesh, index: int, new_name: str):
 	current_uv_sets = _mesh_uv_sets(mesh)
 	old_name = current_uv_sets[index]
 	if old_name == new_name:
@@ -170,8 +70,9 @@ def _rename_uv_set_in_mesh(mesh, index, new_name):  # type: (_nt.Mesh, int, str)
 
 
 def _list_meshes_for_uv_rename(
-	items, index=0, name='map1', all_transform_descendents=True
-):  # type: (_t.Iterable[_h_poly_selection_str_none], int, _t.AnyStr, bool) -> _t.List[_nt.Mesh]
+	items: _h_poly_selection_input_seq,
+	index=0, name='map1', all_transform_descendents=True
+) -> _t.List[_nt.Mesh]:
 	"""
 	Error-check all the inputs and then list the shapes pending for UV-rename.
 
@@ -186,26 +87,17 @@ def _list_meshes_for_uv_rename(
 	if not _re_valid_uv_set_name.match(name):
 		raise ValueError("Invalid UV-set name: {}".format(repr(name)))
 
-	if items is None:
-		return list()
-
-	if isinstance(items, _t_str):
-		items = [items, ]
-
-	try:
-		items_list = list(items)
-	except TypeError:
-		items_list = [items, ]
+	items_list = cleanup_input(items)
 
 	if not items_list:
 		return list()
 
-	meshes, error_input = __to_meshes(items_list, all_transform_descendents=all_transform_descendents)
+	meshes, error_input = _converter.to_meshes(items_list, all_transform_descendents=all_transform_descendents)
 	if error_input:
 		raise ValueError(
 			"Unsupported value: {}".format(repr(error_input[0]))
 			if len(error_input) == 1 else
-			"Unsupported values: {}".format(pformat(error_input))
+			"Unsupported values: {}".format(_pformat(error_input))
 		)
 
 	assert len(error_input) == 0
@@ -261,14 +153,15 @@ def _list_meshes_for_uv_rename(
 
 
 def verify_on_objects_or_components(
-	items, index=0, name='map1', all_transform_descendents=True, do_print=True
-):  # type: (_t.Iterable[_h_poly_selection_str_none], int, _t.AnyStr, bool, bool) -> _t.List[_h_poly_object]
+	items: _h_poly_selection_input_seq,
+	index=0, name='map1', all_transform_descendents=True, do_print=True
+) -> _t.List[_h_poly_object]:
 	try:
 		meshes_for_rename = _list_meshes_for_uv_rename(
 			items, index=index, name=name, all_transform_descendents=all_transform_descendents
 		)
 	except InvalidUVSet as e:
-		_pm.select([__mesh_to_transform_if_only_one(mesh) for mesh in e.meshes], r=1)
+		_pm.select([_converter.mesh_to_transform_if_only_one(mesh) for mesh in e.meshes], r=1)
 		raise e
 
 	if not meshes_for_rename:
@@ -276,7 +169,7 @@ def verify_on_objects_or_components(
 			print("All the meshes have UV-set <{}> named {}".format(index, repr(name)))
 		return list()
 
-	res = [__mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
+	res = [_converter.mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
 	_pm.select(res, r=1)
 
 	if do_print:
@@ -292,7 +185,7 @@ def verify_on_objects_or_components(
 
 def verify_on_selection(
 	index=0, name='map1', all_transform_descendents=True, do_print=True
-):  # type: (int, _t.AnyStr, bool, bool) -> _t.List[_h_poly_object]
+) -> _t.List[_h_poly_object]:
 	return verify_on_objects_or_components(
 		_pm.ls(sl=1),
 		index=index, name=name,
@@ -301,14 +194,15 @@ def verify_on_selection(
 
 
 def rename_on_objects_or_components(
-	items, index=0, name='map1', all_transform_descendents=True, do_print=True
-):  # type: (_t.Iterable[_h_poly_selection_str_none], int, _t.AnyStr, bool, bool) -> _t.List[_h_poly_object]
+	items: _h_poly_selection_input_seq,
+	index=0, name='map1', all_transform_descendents=True, do_print=True
+) -> _t.List[_h_poly_object]:
 	try:
 		meshes_for_rename = _list_meshes_for_uv_rename(
 			items, index=index, name=name, all_transform_descendents=all_transform_descendents
 		)
 	except InvalidUVSet as e:
-		_pm.select([__mesh_to_transform_if_only_one(mesh) for mesh in e.meshes], r=1)
+		_pm.select([_converter.mesh_to_transform_if_only_one(mesh) for mesh in e.meshes], r=1)
 		raise e
 
 	if not meshes_for_rename:
@@ -316,7 +210,7 @@ def rename_on_objects_or_components(
 			print("All the meshes have UV-set <{}> named {}".format(index, repr(name)))
 		return list()
 
-	res = [__mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
+	res = [_converter.mesh_to_transform_if_only_one(mesh) for mesh in meshes_for_rename]
 
 	with _undoable_context("uvSetsRenameChunk"):
 		for mesh in meshes_for_rename:
@@ -336,7 +230,7 @@ def rename_on_objects_or_components(
 
 def rename_on_selection(
 	index=0, name='map1', all_transform_descendents=True, do_print=True
-):  # type: (int, _t.AnyStr, bool, bool) -> _t.List[_h_poly_object]
+) -> _t.List[_h_poly_object]:
 	return rename_on_objects_or_components(
 		_pm.ls(sl=1),
 		index=index, name=name,
