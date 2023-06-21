@@ -18,7 +18,7 @@ from pymel.core import datatypes as dt
 
 try:
 	import typing as _t
-	_t_objects = _t.Iterable[_t.Union[nt.Transform, nt.Mesh]]
+	_t_poly_objects = _t.Iterable[_t.Union[nt.Transform, nt.Mesh]]
 except ImportError:
 	pass
 
@@ -189,7 +189,7 @@ def _run_on_shapes_with_window_initialized(shapes):  # type: (_t.Sequence[nt.Mes
 
 
 def to_mesh_shapes_gen(
-	sel  # type: _t_objects
+	sel  # type: _t_poly_objects
 ):
 	"""Force-convert selection to poly-shapes (meshes)."""
 	for item in sel:
@@ -203,7 +203,7 @@ def to_mesh_shapes_gen(
 		# just skip whatever is left
 
 
-def run_on_objects(objects):  # type: (_t_objects) -> ...
+def run_on_objects(objects):  # type: (_t_poly_objects) -> ...
 	try:
 		Window.close()
 	except Exception:
